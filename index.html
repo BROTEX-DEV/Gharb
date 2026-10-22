@@ -39,7 +39,7 @@ const SUPABASE_KEY='sb_publishable_CiQbGJJx_WGbeGTPssoWYQ_kutyUJh9';
 const $=id=>document.getElementById(id), canvas=$('world'),ctx=canvas.getContext('2d');
 const id=crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2);
 let sb=null,channel=null,joined=false,mode='coop',name='',room='',x=120+Math.random()*500,y=120+Math.random()*260,score=0,keys={},others=new Map(),coins=[],removed=new Set(),lastSend=0;
-for(let i=0;i<18;i++)coins.push({id:'c'+i,x:35+Math.random()*730,y:35+Math.random()*430});
+for(let i=0;i<18;i++){const a=(i*173+97)%730,b=(i*257+61)%430;coins.push({id:'c'+i,x:35+a,y:35+b})}
 function status(s){$('status').textContent=s}
 function draw(){
  ctx.clearRect(0,0,800,500);
@@ -88,7 +88,7 @@ function loop(t){
  if(keys.a||keys.arrowleft)x-=speed;if(keys.d||keys.arrowright)x+=speed;if(keys.w||keys.arrowup)y-=speed;if(keys.s||keys.arrowdown)y+=speed;
  x=Math.max(15,Math.min(785,x));y=Math.max(20,Math.min(480,y));
  for(const c of coins){if(!removed.has(c.id)&&Math.hypot(x-c.x,y-c.y)<18){removed.add(c.id);score++;renderPlayers();broadcast('collect',{id,coin:c.id})}}
- if(joined&&t-lastSend>90){lastSend=t;const p={id,name,x,y,score};broadcast('state',p);channel.track({...p,updatedAt:Date.now()})}
+ if(joined&&t-lastSend>90){lastSend=t;const p={id,name,x,y,score};broadcast('state',p)}
  draw();requestAnimationFrame(loop)
 }
 setModeText();renderPlayers();requestAnimationFrame(loop);
