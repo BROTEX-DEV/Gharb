@@ -251,6 +251,7 @@ const MP_URL='https://pwwicgyrycaexjnnhseb.supabase.co';
 const MP_KEY='sb_publishable_CiQbGJJx_WGbeGTPssoWYQ_kutyUJh9';
 const mpId=(crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2));
 let mpClient=null,mpChannel=null,mpJoined=false,mpRoom='',mpName='',mpLast=0,mpMode='coop',mpRemote=new Map(),mpAvatars=new Map(),mpHorses=new Map();
+P.rideWith=null;
 function mpStatus(t){$('mpStatus').textContent=t}
 function mpRenderPlayers(){const a=[mpName||'تو',...Array.from(mpRemote.values()).map(p=>p.name||'کابویی')];$('mpPlayers').textContent=a.join(' · ')}
 function mpSend(event,payload){if(mpJoined&&mpChannel)mpChannel.send({type:'broadcast',event,payload}).catch(()=>{})}
@@ -282,7 +283,8 @@ function mpRemoteState(p){
  if(!mpAvatars.has(p.id)){const outfit=mpOutfit(p.id),a=man(outfit[0],outfit[1],outfit[2]);a.userData.mpTag=mpNameTag(p.name);a.add(a.userData.mpTag);sc.add(a);mpAvatars.set(p.id,a)}
  const a=mpAvatars.get(p.id);if(a.userData.mpTag&&a.userData.mpTag.userData.drawName){a.userData.mpTag.userData.drawName(p.name||'کابویی');a.userData.mpTag.material.map.needsUpdate=true}
  a.position.set(Number(p.x)||0,(Number(p.y)||0)+.05,Number(p.z)||0);a.rotation.set(0,Number(p.face)||0,0);
- if(p.m){if(!mpHorses.has(p.id)){const h=horse(0x9b7547);sc.add(h);mpHorses.set(p.id,h)}const h=mpHorses.get(p.id);h.visible=true;h.position.set(Number(p.x)||0,Number(p.y)||0,Number(p.z)||0);h.rotation.y=Number(p.face)||0;a.position.y+=1.1}else if(mpHorses.has(p.id))mpHorses.get(p.id).visible=false;
+ if(p.rideWith){const carrier=p.rideWith===mpId?{x:P.x,y:P.y,z:P.z,face:P.face,m:P.m}:mpRemote.get(p.rideWith);if(carrier){a.position.set(carrier.x-Math.sin(carrier.face||0)*.7,carrier.y+.88,carrier.z-Math.cos(carrier.face||0)*.7);a.rotation.y=carrier.face||0}if(mpHorses.has(p.id))mpHorses.get(p.id).visible=false}
+ else if(p.m){if(!mpHorses.has(p.id)){const h=horse(0x9b7547);sc.add(h);mpHorses.set(p.id,h)}const h=mpHorses.get(p.id);h.visible=true;h.position.set(Number(p.x)||0,Number(p.y)||0,Number(p.z)||0);h.rotation.y=Number(p.face)||0;a.position.y+=1.1}else if(mpHorses.has(p.id))mpHorses.get(p.id).visible=false;
  mpRenderPlayers()
 }
 async function mpJoin(){
@@ -319,7 +321,7 @@ async function mpLeave(){
 function mpTick(){
  if(!mpJoined||!mpChannel)return;
  const now=performance.now();if(now-mpLast<100)return;mpLast=now;
- const state={id:mpId,name:mpName,x:P.x,y:P.y,z:P.z,face:P.face,m:P.m,health:P.hp};
+ const state={id:mpId,name:mpName,x:P.x,y:P.y,z:P.z,face:P.face,m:P.m,rideWith:P.rideWith||null,health:P.hp};
  mpSend('state',state);
 }
 $('mpToggle').onclick=()=>$('mpPanel').classList.toggle('open');
@@ -383,7 +385,7 @@ let tmr;function msg(t,ms=2500){const e=$('tt');e.textContent=t;e.style.opacity=
 function jump(){if(started&&!P.dead&&P.jy<=.05)P.vy=P.m?9.5:7.5}
 function call(){if(!started||P.m)return;const h=horses[0];h.call=1;h.wild=0;tone(1800,2500,.5,.3);tone(2200,2800,.4,.3,'sine',1,A.currentTime+.5);msg('🐎 اسبت دارد می‌آید…',1800)}
 function nearH(){let b=null,bd=5.5;for(const h of horses){const d=Math.hypot(P.x-h.x,P.z-h.z);if(d<bd){bd=d;b=h}}return b}
-function mount(){if(!started||P.dead)return;if(P.m){P.h.x=P.x+2.5;P.h.z=P.z;P.m=0;P.h=null;return}const b=nearH();if(b){P.m=1;P.h=b;b.call=0;b.wild=0;tone(750,320,.6,.5,'sawtooth');nz(.3,'bandpass',900,400,.5);msg('🐎 سوار شدی · Shift = تاخت · Space = پرش',2200)}}
+function mount(){if(!started||P.dead)return;if(P.rideWith){P.rideWith=null;P.vx=P.vz=0;msg('از اسب مشترک پیاده شدی',1400);return}if(mpJoined&&!P.m){let carrier=null,bd=4.5;for(const p of mpRemote.values()){const d=Math.hypot(P.x-p.x,P.z-p.z);if(p.m&&!p.rideWith&&d<bd){carrier=p;bd=d}}if(carrier){P.rideWith=carrier.id;P.m=0;P.h=null;P.vx=P.vz=0;msg('🐎 سوار اسب بازیکن شدی! برای پیاده شدن دوباره دکمه سوار شدن را بزن',2600);return}}if(P.m){P.h.x=P.x+2.5;P.h.z=P.z;P.m=0;P.h=null;return}const b=nearH();if(b){P.m=1;P.h=b;b.call=0;b.wild=0;tone(750,320,.6,.5,'sawtooth');nz(.3,'bandpass',900,400,.5);msg('🐎 سوار شدی · Shift = تاخت · Space = پرش',2200)}}
 function reload(){if(!started||P.rl>0||P.ammo>=30||P.res<=0)return;P.rl=1.5;nz(.05,'highpass',3000,5000,.5);setTimeout(()=>nz(.05,'highpass',3000,5000,.5),500);setTimeout(()=>nz(.06,'highpass',2000,4000,.6),1100);setTimeout(()=>nz(.09,'highpass',1500,3000,.7),1450)}
 function hurt(n){P.hp-=n;P.hurtT=8;$('dm').style.opacity=.7;nz(.2,'lowpass',400,100,.9);tone(120,50,.25,.7);if(P.hp<=0&&!P.dead){P.dead=1;msg('کشته شدی…',2800);setTimeout(()=>{P.dead=0;P.hp=100;P.x=2;P.z=36;P.m=0;P.h=null;P.cash=Math.floor(P.cash*.8);P.ammo=30},3000)}}
 function shoot(){if(!started||P.dead||P.rl>0||P.cd>0)return;if(P.ammo<=0){reload();return}P.ammo--;if(mpJoined)mpSend('shot',{id:mpId,name:mpName,x:P.x,y:P.y+1.5,z:P.z,yaw:P.yaw,pitch:P.pitch});if(P.ammo<=0)setTimeout(reload,200);P.cd=.11;P.aim=.6;gun();P.pitch=cl(P.pitch-.012,-.35,1.1);flash.intensity=4;pm.userData.gn.userData.mf.visible=true;P.mf=.05;
@@ -395,13 +397,13 @@ if(best.hp<=0){best.alive=0;if(best.c){P.cash+=25+(hh?15:0);P.res+=12;tone(880,8
 // update
 function update(dt){if(fh)shoot();if(P.mf>0){P.mf-=dt;if(P.mf<=0)pm.userData.gn.userData.mf.visible=false}TD=(TD+dt/300)%1;P.cd-=dt;P.hurtT-=dt;if(P.rl>0){P.rl-=dt;if(P.rl<=0){const n=Math.min(30-P.ammo,P.res);P.ammo+=n;P.res-=n}}
 flash.intensity=Math.max(0,flash.intensity-dt*60);const dm=$('dm').style;dm.opacity=Math.max(0,dm.opacity-dt*1.2);if(P.hurtT<0&&P.hp<100&&!P.dead)P.hp=Math.min(100,P.hp+dt*4);
-let f=(k.w||k.arrowup?1:0)-(k.s||k.arrowdown?1:0)-joy.y,s=(k.d?1:0)-(k.a?1:0)+joy.x,L=Math.hypot(f,s);if(L>1){f/=L;s/=L;L=1}if(P.dead)f=s=L=0;
+let f=(k.w||k.arrowup?1:0)-(k.s||k.arrowdown?1:0)-joy.y,s=(k.d?1:0)-(k.a?1:0)+joy.x,L=Math.hypot(f,s);if(P.rideWith){f=0;s=0;L=0}if(L>1){f/=L;s/=L;L=1}if(P.dead)f=s=L=0;
 const spr=(k.shift||Math.hypot(joy.x,joy.y)>.92)&&L>.1;
 if(P.m){if(spr&&!P.tired&&P.st>0)P.st-=dt*20;else P.st=Math.min(100,P.st+dt*12);if(P.st<=0)P.tired=1;if(P.st>30)P.tired=0}
 const gal=P.m&&spr&&!P.tired,mx=P.m?(gal?25:12):(spr?9:5.2),sn=Math.sin(P.yaw),cs=Math.cos(P.yaw),kx=cl(dt*(P.m?1.8:10),0,1);
 P.vx+=((-sn*f+cs*s)*mx-P.vx)*kx;P.vz+=((-cs*f-sn*s)*mx-P.vz)*kx;P.x+=P.vx*dt;P.z+=P.vz*dt;
 for(const c of colliders){const qx=cl(P.x,c.x-c.hx,c.x+c.hx),qz=cl(P.z,c.z-c.hz,c.z+c.hz),dx=P.x-qx,dz=P.z-qz,d=Math.hypot(dx,dz),r=P.m?1.1:.6;if(d<r){if(d>0){P.x=qx+dx/d*r;P.z=qz+dz/d*r}else P.x=c.x+c.hx+r}}
-solid(P,P.m?1.1:.6);P.x=cl(P.x,-285,285);P.z=cl(P.z,-285,285);P.vy-=26*dt;P.jy+=P.vy*dt;if(P.jy<=0){P.jy=0;P.vy=0}P.y=H(P.x,P.z)+P.jy;
+solid(P,P.m?1.1:.6);P.x=cl(P.x,-285,285);P.z=cl(P.z,-285,285);if(P.rideWith){const carrier=mpRemote.get(P.rideWith);if(carrier){const face=Number(carrier.face)||0;P.x=(Number(carrier.x)||0)-Math.sin(face)*.7;P.z=(Number(carrier.z)||0)-Math.cos(face)*.7;P.y=H(P.x,P.z)+.88;P.face=face;P.yaw=face;P.vx=P.vz=0}else{P.rideWith=null;msg('بازیکن سوار اسب از اتاق خارج شد',1800)}}P.vy-=26*dt;P.jy+=P.vy*dt;if(P.jy<=0){P.jy=0;P.vy=0}P.y=H(P.x,P.z)+P.jy;
 const spd=Math.hypot(P.vx,P.vz);if(spd>.8)P.face+=ad(P.face,Math.atan2(P.vx,P.vz))*cl(dt*(P.m?3.5:12),0,1);if(P.aim>0){P.aim-=dt;P.face+=ad(P.face,P.yaw+PI)*cl(dt*14,0,1)}
 P.ph+=spd*dt*(P.m?.45:1.6);const q=Math.floor(P.ph/(P.m?1.571:3.14));if(q!=P.q){P.q=q;if(P.jy<.1&&spd>1.5)P.m?hoof():stp()}
 const bob=P.m?Math.abs(Math.sin(P.ph*2))*.06*Math.min(spd/20,1):Math.abs(Math.sin(P.ph))*.04*Math.min(spd/5,1);
