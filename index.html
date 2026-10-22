@@ -48,7 +48,7 @@ body:not(.playing) #hp,body:not(.playing) #st,body:not(.playing) #ob,body:not(.p
 @media (pointer:fine){#rc,#jb{display:none}#pr{bottom:60px}}
 
 
-#mpToggle{position:fixed;z-index:24;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;width:46px;height:46px;border-radius:50%;border:1px solid #d6a15a;background:#24170deF;color:#f5d39a;font-size:21px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px #0008}
+.menu-actions{display:flex;flex-direction:column;gap:10px;min-width:min(230px,75vw)}.menu-actions button{width:100%;margin:0}#mpToggle{position:fixed;z-index:24;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;width:46px;height:46px;border-radius:50%;border:1px solid #d6a15a;background:#24170deF;color:#f5d39a;font-size:21px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px #0008}
 #mpPanel{position:fixed;z-index:60;top:calc(env(safe-area-inset-top,0px) + 66px);left:10px;width:min(340px,calc(100vw - 20px));max-height:75vh;overflow:auto;background:linear-gradient(155deg,#352113f5,#120b07f5);border:1px solid #d6a15a;border-radius:13px;padding:13px;color:#f3e3c3;display:none;box-shadow:0 12px 35px #0009;backdrop-filter:blur(10px)}
 #mpPanel.open{display:block}#mpPanel h3{margin:0 0 9px;color:#f2ce8c;font-size:20px}
 #mpPanel input,#mpPanel button{font:inherit;border-radius:8px;padding:9px;border:1px solid #76532d}
@@ -75,7 +75,7 @@ body:not(.playing) #mpToggle{display:none}
 </div>
 <div id="sp"></div>
 <div id="pz"><h2>⏸ توقف</h2><button id="pre">ادامه بازی</button><button id="pso">تنظیمات</button><button id="pmn">منوی اصلی</button></div>
-<div id="ov"><canvas id="bg"></canvas><div id="cinema"><div class="letter top"></div><div class="letter bottom"></div><div class="stamp">THE WILD WEST</div></div><div id="mc"><div><h1>غرب وحشی</h1><div class="tg">شهر بزرگ · اسب‌های وحشی · اردوگاه راهزن‌ها</div></div><div><button id="go">شروع بازی</button><br><button id="so">تنظیمات</button></div></div>
+<div id="ov"><canvas id="bg"></canvas><div id="cinema"><div class="letter top"></div><div class="letter bottom"></div><div class="stamp">THE WILD WEST</div></div><div id="mc"><div><h1>غرب وحشی</h1><div class="tg">شهر بزرگ · اسب‌های وحشی · اردوگاه راهزن‌ها</div></div><div class="menu-actions"><button id="go">حالت آفلاین</button><button id="goOnline">حالت آنلاین</button><button id="so">تنظیمات</button></div></div>
 </div><div id="dustFX"></div>
 <button id="mpToggle" aria-label="بازی آنلاین" title="بازی آنلاین">🌐</button>
 <section id="mpPanel" aria-label="چندنفره آنلاین">
@@ -336,6 +336,7 @@ T(0,0,'#d9b36a',6);for(const h of horses)if(Math.hypot(h.x-P.x,h.z-P.z)<150)T(h.
 for(const e of en)if(e.alive&&Math.hypot(e.x-P.x,e.z-P.z)<90)T(e.x,e.z,'#f44',2.5);for(const m of camps)if(!m.done)T(m.x,m.z,'#fa3',4);
 c.fillStyle='#fff';c.beginPath();c.moveTo(48,41);c.lineTo(53,53);c.lineTo(43,53);c.fill()}
 let paused=0,fr=0,last=performance.now();function loop(now){requestAnimationFrame(loop);const dt=Math.min(.05,(now-last)/1000);last=now;if(started&&!paused){update(dt);mpTick()}if(A){cg2.gain.value=started?night*.02:0;music()}sky();if(started||!(fr++%20))rd.render(sc,cam)}
+$('goOnline').onclick=()=>{if(started){$('mpPanel').classList.add('open');return}$('go').click();setTimeout(()=>$('mpPanel').classList.add('open'),1150)};
 $('go').onclick=()=>{if(started)return;if(!A)initAudio();A.resume();const intro=$('cinema');intro.classList.remove('active');intro.style.display='block';void intro.offsetWidth;intro.classList.add('active');$('go').disabled=true;setTimeout(()=>{started=1;document.body.classList.add('playing');$('ov').style.display='none';$('dustFX').classList.add('active');intro.classList.remove('active');intro.style.display='none';$('go').disabled=false;$('pa').style.display='flex';if(matchMedia('(pointer:fine)').matches)rd.domElement.requestPointerLock();msg('به غرب وحشی خوش آمدی؛ نور نارنجی = اردوگاه راهزن‌ها',3500)},1050)};
 $('fs').onclick=()=>{const d=document,e=d.documentElement;try{if(d.fullscreenElement||d.webkitFullscreenElement){(d.exitFullscreen||d.webkitExitFullscreen).call(d)}else{const f=e.requestFullscreen||e.webkitRequestFullscreen;if(!f){msg('این مرورگر تمام‌صفحه را پشتیبانی نمی‌کند؛ لینک را در مرورگر باز کنید',3500);return}const r=f.call(e);if(r&&r.catch)r.catch(()=>msg('اجازهٔ تمام‌صفحه داده نشد؛ لینک را مستقیم در مرورگر باز کنید',3500))}}catch(x){msg('تمام‌صفحه ممکن نیست',2500)}};addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();rd.setSize(innerWidth,innerHeight)});
 
