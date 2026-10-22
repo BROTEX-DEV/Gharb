@@ -82,7 +82,7 @@ body:not(.playing) #mpToggle{display:none}
 <h3>🤠 غرب وحشی آنلاین</h3>
 <input id="mpName" maxlength="18" placeholder="نام کابویی">
 <input id="mpRoom" maxlength="28" value="شهر-غربی" placeholder="نام اتاق">
-<div class="mpr"><button id="mpJoin">ورود به اتاق</button><button id="mpLeave" disabled>خروج</button></div>
+<div class="mpr"><button id="mpJoin">ورود به اتاق</button><button id="mpLeave" disabled>خروج</button><button id="mpMode">حالت: همکاری</button></div>
 <div id="mpStatus">برای دیدن دوستانت، وارد یک اتاق شوید.</div>
 <div><b>بازیکنان حاضر</b><div id="mpPlayers">فقط خودت</div></div>
 <div id="mpChat"></div>
@@ -178,7 +178,7 @@ const P={x:2,z:36,jy:0,vy:0,vx:0,vz:0,face:PI,yaw:PI,pitch:.35,y:0,hp:100,ammo:3
 const MP_URL='https://pwwicgyrycaexjnnhseb.supabase.co';
 const MP_KEY='sb_publishable_CiQbGJJx_WGbeGTPssoWYQ_kutyUJh9';
 const mpId=(crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2));
-let mpClient=null,mpChannel=null,mpJoined=false,mpRoom='',mpName='',mpLast=0,mpRemote=new Map(),mpAvatars=new Map(),mpHorses=new Map();
+let mpClient=null,mpChannel=null,mpJoined=false,mpRoom='',mpName='',mpLast=0,mpMode='coop',mpRemote=new Map(),mpAvatars=new Map(),mpHorses=new Map();
 function mpStatus(t){$('mpStatus').textContent=t}
 function mpChatLine(who,text){const el=document.createElement('div');el.textContent=who+': '+text;$('mpChat').appendChild(el);$('mpChat').scrollTop=$('mpChat').scrollHeight}
 function mpRenderPlayers(){const a=[mpName||'تو',...Array.from(mpRemote.values()).map(p=>p.name||'کابویی')];$('mpPlayers').textContent=a.join(' · ')}
@@ -206,12 +206,12 @@ async function mpJoin(){
   mpChannel.on('broadcast',{event:'state'},({payload})=>mpRemoteState(payload));
   mpChannel.on('broadcast',{event:'chat'},({payload})=>{if(payload&&payload.id!==mpId)mpChatLine(payload.name||'کابویی',payload.text||'')});
   mpChannel.on('broadcast',{event:'shot'},({payload})=>{
-   if(!payload||payload.id===mpId||P.dead)return;
+   if(!payload||payload.id===mpId||P.dead||mpMode!=='pvp')return;
    const dx=P.x-payload.x,dz=P.z-payload.z,dist=Math.hypot(dx,dz),ang=Math.atan2(dx,dz);
    if(dist<75&&Math.abs(ad(ang,payload.yaw||0))<.18){P.hp=Math.max(0,P.hp-15);$('hv').textContent=Math.ceil(P.hp);$('hb').style.width=P.hp+'%';msg('🔫 به تو شلیک شد! (PvP آزمایشی)',1300);if(P.hp<=0){P.dead=1;msg('در مبارزه شکست خوردی؛ بازی را دوباره شروع کن.',3000)}}
   });
   mpChannel.on('broadcast',{event:'hit'},({payload})=>{if(payload&&payload.id!==mpId)msg((payload.name||'بازیکن')+' به یک کابویی شلیک کرد',1000)});
-  mpChannel.on('broadcast',{event:'mode'},({payload})=>{if(payload&&payload.mode)mpStatus('اتاق آنلاین شد • حالت '+(payload.mode==='pvp'?'مبارزه':'همکاری'))});
+  mpChannel.on('broadcast',{event:'mode'},({payload})=>{if(payload&&payload.mode){mpMode=payload.mode;$('mpMode').textContent='حالت: '+(mpMode==='pvp'?'مبارزه PvP':'همکاری');mpStatus('اتاق آنلاین شد • حالت '+(mpMode==='pvp'?'مبارزه PvP':'همکاری'))}});
   await new Promise((resolve,reject)=>{let done=false;const timer=setTimeout(()=>{if(!done){done=true;reject(new Error('زمان اتصال تمام شد. Realtime پروژه را بررسی کن.'))}},12000);
    mpChannel.subscribe(async state=>{if(state==='SUBSCRIBED'&&!done){done=true;clearTimeout(timer);mpJoined=true;$('mpLeave').disabled=false;$('mpJoin').disabled=true;mpStatus('متصل شدی! اتاق: '+mpRoom);await mpChannel.track({id:mpId,name:mpName,x:P.x,y:P.y,z:P.z,face:P.face,m:P.m,joinedAt:Date.now()});mpRenderPlayers();resolve()}else if((state==='CHANNEL_ERROR'||state==='TIMED_OUT')&&!done){done=true;clearTimeout(timer);reject(new Error('اتصال آنلاین ناموفق بود؛ تنظیمات Realtime را بررسی کن.'))}})
   });
@@ -231,7 +231,7 @@ function mpTick(){
  mpSend('state',state);
 }
 $('mpToggle').onclick=()=>$('mpPanel').classList.toggle('open');
-$('mpJoin').onclick=mpJoin;$('mpLeave').onclick=mpLeave;
+$('mpJoin').onclick=mpJoin;$('mpLeave').onclick=mpLeave;$('mpMode').onclick=()=>{mpMode=mpMode==='coop'?'pvp':'coop';$('mpMode').textContent='حالت: '+(mpMode==='pvp'?'مبارزه PvP':'همکاری');mpStatus('حالت اتاق: '+(mpMode==='pvp'?'مبارزه PvP':'همکاری'));mpSend('mode',{mode:mpMode})};
 $('mpSend').onclick=()=>{const text=$('mpChatInput').value.trim();if(!text||!mpJoined)return;mpChatLine(mpName,text);mpSend('chat',{id:mpId,name:mpName,text});$('mpChatInput').value=''};
 $('mpChatInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('mpSend').click()});
 addEventListener('beforeunload',()=>{if(mpClient&&mpChannel)mpClient.removeChannel(mpChannel)});
