@@ -61,10 +61,24 @@ body:not(.playing) #hp,body:not(.playing) #st,body:not(.playing) #ob,body:not(.p
 
 
 body:not(.playing) #mpToggle{display:none}
+
+#shopToggle{right:150px;cursor:pointer;z-index:8;background:#2b1a0c;color:#f4d39a;border:1px solid #d98b3a;border-radius:10px;display:none;align-items:center;justify-content:center}
+body.playing #shopToggle{display:flex}
+#shopPanel{display:none;position:absolute;z-index:30;left:50%;top:50%;transform:translate(-50%,-50%);width:min(340px,calc(100vw - 32px));max-height:80vh;overflow:auto;box-sizing:border-box;padding:18px;border:2px solid #bd7d36;border-radius:15px;background:linear-gradient(145deg,#2b1a0c,#100a06);color:#f4e3c4;box-shadow:0 12px 45px #000c;touch-action:pan-y}
+#shopPanel.open{display:block}
+#shopPanel h3{margin:0 0 6px;text-align:center;color:#f3bd72}
+#shopBalance{text-align:center;margin:8px 0 12px;font-weight:800;font-size:18px;color:#ffd58c}
+.shopItem{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid #8b633944}
+.shopItem small{display:block;color:#c9b08b;font-size:11px;margin-top:3px}
+#shopPanel button{border:1px solid #e6b76d;border-radius:8px;background:#b8762f;color:#211205;padding:9px 12px;font-family:inherit;font-weight:800;cursor:pointer;white-space:nowrap}
+#shopClose{width:100%;margin-top:10px;background:#382719!important;color:#f4e3c4!important}
+#cashHud{position:absolute;top:112px;left:12px;z-index:4;background:#24170dbb;border:1px solid #d98b3a;border-radius:8px;padding:5px 9px;color:#ffd58c;font-weight:800;font-size:13px;direction:rtl;pointer-events:none}
+body:not(.playing) #cashHud{display:none}
+@media(max-width:420px){#shopToggle{right:150px}#cashHud{top:110px}}
 </style></head><body>
 <div id="dm"></div><canvas id="mm" width="96" height="96"></canvas>
 <div class="h" id="hp">❤ <span id="hv">100</span><i class="bar"><b id="hb" style="background:#c0392b;width:100%"></b></i><i class="bar" id="sbw"><b id="sb" style="background:#d9a63a;width:100%"></b></i></div>
-<div class="h" id="st"></div><div class="h" id="ob"></div><div class="h" id="cx"></div><div class="h" id="pr"></div><div class="h" id="tt"></div>
+<div id="cashHud">💰 پول: <span id="cashValue">0</span>$</div><div class="h" id="st"></div><div class="h" id="ob"></div><div class="h" id="cx"></div><div class="h" id="pr"></div><div class="h" id="tt"></div>
 <div class="ib" id="pa" aria-label="مکث"><svg viewBox="0 0 24 24"><path d="M9 5v14M15 5v14" stroke-width="3"/></svg></div><div class="ib" id="mu" aria-label="صدا"><svg viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6l-5 4H4Z"/><path d="M16 9a5 5 0 0 1 0 6M18.5 6.5a9 9 0 0 1 0 11"/></svg></div><div class="ib" id="fs"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M3 8V3h5M12 3h5v5M17 12v5h-5M8 17H3v-5"/></svg></div><div id="jb"><div id="jk"></div></div>
 <div id="rc">
 <div class="btn" id="bh" aria-label="صدا زدن اسب" title="صدا زدن اسب"><svg viewBox="0 0 24 24"><path d="M4 8h5l7-4v16l-7-4H4z"/><path d="M8 8v8M18 9l3-2M18 15l3 2"/><path d="M3 5l2 2M3 19l2-2"/></svg></div>
@@ -76,8 +90,14 @@ body:not(.playing) #mpToggle{display:none}
 <div id="sp"></div>
 <div id="pz"><h2>⏸ توقف</h2><button id="pre">ادامه بازی</button><button id="pso">تنظیمات</button><button id="pmn">منوی اصلی</button></div>
 <div id="ov"><canvas id="bg"></canvas><div id="cinema"><div class="letter top"></div><div class="letter bottom"></div><div class="stamp">THE WILD WEST</div></div><div id="mc"><div><h1>غرب وحشی</h1><div class="tg">شهر بزرگ · اسب‌های وحشی · اردوگاه راهزن‌ها</div></div><div class="menu-actions"><button id="go">حالت آفلاین</button><button id="goOnline">حالت آنلاین</button><button id="so">تنظیمات</button></div></div>
-</div><div id="dustFX"></div>
-<button id="mpToggle" aria-label="بازی آنلاین" title="بازی آنلاین">🌐</button>
+</div><section id="shopPanel" aria-label="فروشگاه غرب وحشی">
+<h3>🏜️ فروشگاه غرب وحشی</h3><div style="text-align:center;font-size:12px;color:#c9b08b">تجهیزاتت را با پول مأموریت‌ها بخر</div>
+<div id="shopBalance">💰 موجودی: <span id="shopCash">0</span>$</div>
+<div class="shopItem"><div>🔫 بسته مهمات<small>۳۰ تیر ذخیره اضافه می‌شود</small></div><button id="buyAmmo">۲۰$ خرید</button></div>
+<div class="shopItem"><div>❤️ درمان<small>جان کامل می‌شود</small></div><button id="buyHeal">۳۰$ خرید</button></div>
+<div class="shopItem"><div>🐎 انرژی اسب‌سواری<small>استقامتت کامل می‌شود</small></div><button id="buyStamina">۱۵$ خرید</button></div>
+<button id="shopClose">بستن فروشگاه</button></section><div id="dustFX"></div>
+<button id="shopToggle" class="ib" aria-label="فروشگاه" title="فروشگاه">💰</button><button id="mpToggle" aria-label="بازی آنلاین" title="بازی آنلاین">🌐</button>
 <section id="mpPanel" aria-label="چندنفره آنلاین">
 <h3>🤠 غرب وحشی آنلاین</h3>
 <input id="mpName" maxlength="18" placeholder="نام کابویی">
@@ -172,7 +192,7 @@ mkHorse(7,28,hcol[0],-.6,0);[[-1,-72],[1,-44],[-1,-18],[1,16],[-1,42],[1,70]].fo
 for(let i=0;i<7;i++){const[x,z]=rp();mkHorse(x,z,hcol[i%7],R()*6,1)}
 const pm=arm(man(0x7a2a22,0x3b2a1a));sc.add(pm);
 const npc=[];for(let i=0;i<9;i++){const m=man([0x556b8d,0x8d5555,0x5d7a52,0x777777][i%4],[0x222222,0x6b5a3a][i%2],0x3a3a4a),n={m,x:(i%2?1:-1)*(6+R()*8),z:-90+R()*180,dir:i%3?1:-1,v:1.3+R()};sc.add(m);npc.push(n)}
-const P={x:2,z:36,jy:0,vy:0,vx:0,vz:0,face:PI,yaw:PI,pitch:.35,y:0,hp:100,ammo:30,res:120,cash:0,m:0,h:null,cd:0,rl:0,dead:0,ph:0,q:0,st:100,tired:0,hurtT:0,aim:0,alert:0};
+const P={x:2,z:36,jy:0,vy:0,vx:0,vz:0,face:PI,yaw:PI,pitch:.35,y:0,hp:100,ammo:30,res:120,cash:Math.max(0,Number(localStorage.getItem('ww_cash'))||0),m:0,h:null,cd:0,rl:0,dead:0,ph:0,q:0,st:100,tired:0,hurtT:0,aim:0,alert:0};
 
 const MP_URL='https://pwwicgyrycaexjnnhseb.supabase.co';
 const MP_KEY='sb_publishable_CiQbGJJx_WGbeGTPssoWYQ_kutyUJh9';
@@ -276,6 +296,14 @@ addEventListener('touchstart',e=>{for(const t of e.changedTouches){if(t.target.c
 addEventListener('touchmove',e=>{for(const t of e.changedTouches){if(t.identifier==joy.id){let x=(t.clientX-joy.ox)/60,y=(t.clientY-joy.oy)/60,l=Math.hypot(x,y);if(l>1){x/=l;y/=l}joy.x=x;joy.y=y;$('jk').style.transform='translate('+x*35+'px,'+y*35+'px)'}else if(t.identifier==lk.id){P.yaw-=(t.clientX-lk.x)*.006*S.sens;P.pitch=cl(P.pitch+(t.clientY-lk.y)*.004*S.sens,-.35,1.1);lk.x=t.clientX;lk.y=t.clientY}}},{passive:true});
 addEventListener('touchend',e=>{if(A&&A.state!='running')A.resume();for(const t of e.changedTouches){if(t.identifier==joy.id){joy={x:0,y:0,id:null,ox:0,oy:0};const b=$('jb').style;b.left=b.top=b.bottom='';$('jk').style.transform=''}if(t.identifier==lk.id)lk.id=null}});
 $('bf').onpointerdown=()=>{fh=1;shoot()};$('br').onpointerdown=reload;$('bm').onpointerdown=mount;$('bh').onpointerdown=call;$('bj').onpointerdown=jump;
+function syncCash(){const n=Math.max(0,Math.floor(P.cash||0));if($('cashValue'))$('cashValue').textContent=n;if($('shopCash'))$('shopCash').textContent=n;try{localStorage.setItem('ww_cash',String(n))}catch(e){}}
+function buyItem(cost,apply,success){if(!started){msg('اول بازی را شروع کن',1500);return}if(P.cash<cost){msg('پولت کافی نیست؛ راهزن‌ها را شکست بده و اردوگاه پاک کن!',2500);return}if(!apply()){msg('فعلاً به این وسیله نیاز نداری',1800);return}P.cash-=cost;syncCash();msg(success,2000)}
+$('shopToggle').onclick=()=>{$('shopPanel').classList.add('open');syncCash()};
+$('shopClose').onclick=()=> $('shopPanel').classList.remove('open');
+$('buyAmmo').onclick=()=>buyItem(20,()=>{if(P.res>=240)return false;P.res=Math.min(240,P.res+30);return true},'۳۰ تیر ذخیره خریدی!');
+$('buyHeal').onclick=()=>buyItem(30,()=>{if(P.hp>=100)return false;P.hp=100;$('hv').textContent='100';$('hb').style.width='100%';return true},'جان تو کامل شد!');
+$('buyStamina').onclick=()=>buyItem(15,()=>{if(P.st>=100)return false;P.st=100;$('sb').style.width='100%';return true},'استقامتت کامل شد!');
+syncCash();
 let tmr;function msg(t,ms=2500){const e=$('tt');e.textContent=t;e.style.opacity=1;clearTimeout(tmr);tmr=setTimeout(()=>e.style.opacity=0,ms)}
 function jump(){if(started&&!P.dead&&P.jy<=.05)P.vy=P.m?9.5:7.5}
 function call(){if(!started||P.m)return;const h=horses[0];h.call=1;h.wild=0;tone(1800,2500,.5,.3);tone(2200,2800,.4,.3,'sine',1,A.currentTime+.5);msg('🐎 اسبت دارد می‌آید…',1800)}
@@ -335,7 +363,7 @@ const T=(x,z,col,r)=>{const dx=x-P.x,dz=z-P.z;let a=(dx*Math.cos(P.yaw)-dz*Math.
 T(0,0,'#d9b36a',6);for(const h of horses)if(Math.hypot(h.x-P.x,h.z-P.z)<150)T(h.x,h.z,'#b9854a',2);for(const e of an)if(e.alive&&Math.hypot(e.x-P.x,e.z-P.z)<120)T(e.x,e.z,'#6c6',2);
 for(const e of en)if(e.alive&&Math.hypot(e.x-P.x,e.z-P.z)<90)T(e.x,e.z,'#f44',2.5);for(const m of camps)if(!m.done)T(m.x,m.z,'#fa3',4);
 c.fillStyle='#fff';c.beginPath();c.moveTo(48,41);c.lineTo(53,53);c.lineTo(43,53);c.fill()}
-let paused=0,fr=0,last=performance.now();function loop(now){requestAnimationFrame(loop);const dt=Math.min(.05,(now-last)/1000);last=now;if(started&&!paused){update(dt);mpTick()}if(A){cg2.gain.value=started?night*.02:0;music()}sky();if(started||!(fr++%20))rd.render(sc,cam)}
+let paused=0,fr=0,last=performance.now();function loop(now){requestAnimationFrame(loop);const dt=Math.min(.05,(now-last)/1000);last=now;if(started&&!paused){update(dt);mpTick();syncCash()}if(A){cg2.gain.value=started?night*.02:0;music()}sky();if(started||!(fr++%20))rd.render(sc,cam)}
 $('goOnline').onclick=()=>{if(started){$('mpPanel').classList.add('open');return}$('go').click();setTimeout(()=>$('mpPanel').classList.add('open'),1150)};
 $('go').onclick=()=>{if(started)return;if(!A)initAudio();A.resume();const intro=$('cinema');intro.classList.remove('active');intro.style.display='block';void intro.offsetWidth;intro.classList.add('active');$('go').disabled=true;setTimeout(()=>{started=1;document.body.classList.add('playing');$('ov').style.display='none';$('dustFX').classList.add('active');intro.classList.remove('active');intro.style.display='none';$('go').disabled=false;$('pa').style.display='flex';if(matchMedia('(pointer:fine)').matches)rd.domElement.requestPointerLock();msg('به غرب وحشی خوش آمدی؛ نور نارنجی = اردوگاه راهزن‌ها',3500)},1050)};
 $('fs').onclick=()=>{const d=document,e=d.documentElement;try{if(d.fullscreenElement||d.webkitFullscreenElement){(d.exitFullscreen||d.webkitExitFullscreen).call(d)}else{const f=e.requestFullscreen||e.webkitRequestFullscreen;if(!f){msg('این مرورگر تمام‌صفحه را پشتیبانی نمی‌کند؛ لینک را در مرورگر باز کنید',3500);return}const r=f.call(e);if(r&&r.catch)r.catch(()=>msg('اجازهٔ تمام‌صفحه داده نشد؛ لینک را مستقیم در مرورگر باز کنید',3500))}}catch(x){msg('تمام‌صفحه ممکن نیست',2500)}};addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();rd.setSize(innerWidth,innerHeight)});
