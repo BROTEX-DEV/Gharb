@@ -629,6 +629,26 @@ cam.position.set(0,14,60);cam.lookAt(0,4,0);sky();requestAnimationFrame(loop);
 @media (pointer:coarse) and (max-height:500px){
   body.playing #cashHud{top:calc(118px + env(safe-area-inset-top,0px));}
 }
+
+/* v1.0.2: keep the online button clear of the health HUD and minimap on mobile */
+@media (pointer:coarse) and (max-width:600px){
+  body.playing #mpToggle{
+    top:calc(164px + env(safe-area-inset-top,0px));
+    left:calc(10px + env(safe-area-inset-left,0px));
+    width:38px;
+    height:38px;
+    font-size:18px;
+    z-index:24;
+  }
+}
+@media (pointer:coarse) and (max-width:380px){
+  body.playing #mpToggle{
+    top:calc(164px + env(safe-area-inset-top,0px));
+    left:calc(8px + env(safe-area-inset-left,0px));
+    width:36px;
+    height:36px;
+  }
+}
 </style>
-<div id="siteVersion" aria-label="نسخه بازی">نسخه 1.0.1</div>
+<div id="siteVersion" aria-label="نسخه بازی">نسخه 1.0.2</div>
 </body></html>
