@@ -265,6 +265,16 @@ function mpOutfit(id){
  const palettes=[[0x8f3428,0x33251a,0x342d2b],[0x315c78,0x25201b,0x3a3b4c],[0x65713c,0x3b2b1c,0x292d28],[0xb17a32,0x3a2117,0x51402b],[0x673c73,0x211c1a,0x34313c],[0x9b3f4b,0x29221b,0x4b3530],[0x3d7770,0x282019,0x393c3a],[0x8a8172,0x49311e,0x24272d]];
  let h=0;for(const ch of String(id))h=(h*31+ch.charCodeAt(0))>>>0;return palettes[h%palettes.length]
 }
+function mpApplyOutfit(model,id){
+ const outfit=mpOutfit(id);
+ model.traverse(o=>{if(!o.isMesh||!o.material)return;let color=null;
+  if(Math.abs((o.parent&&o.parent.position.y)||0-.9)<.001)color=outfit[2];
+  if(o.parent&&Math.abs(o.parent.position.y-1.65)<.001)color=outfit[0];
+  if(o.parent===model&&Math.abs(o.position.y-1.3)<.001)color=outfit[0];
+  if(o.parent===model&&(Math.abs(o.position.y-2.1)<.001||Math.abs(o.position.y-2.24)<.001))color=outfit[1];
+  if(color!==null){o.material=o.material.clone();o.material.color.setHex(color)}
+ })
+}
 function mpRemoteRemove(pid){mpRemote.delete(pid);if(mpAvatars.has(pid)){sc.remove(mpAvatars.get(pid));mpAvatars.delete(pid)}if(mpHorses.has(pid)){sc.remove(mpHorses.get(pid));mpHorses.delete(pid)}mpRenderPlayers()}
 function mpRemoteState(p){
  if(!p||!p.id||p.id===mpId)return;
@@ -295,7 +305,7 @@ async function mpJoin(){
   mpChannel.on('broadcast',{event:'hit'},({payload})=>{if(payload&&payload.id!==mpId)msg((payload.name||'بازیکن')+' به یک کابویی شلیک کرد',1000)});
   mpChannel.on('broadcast',{event:'mode'},({payload})=>{if(payload&&payload.mode){mpMode=payload.mode;$('mpMode').textContent='حالت: '+(mpMode==='pvp'?'مبارزه PvP':'همکاری');mpStatus('اتاق آنلاین شد • حالت '+(mpMode==='pvp'?'مبارزه PvP':'همکاری'))}});
   await new Promise((resolve,reject)=>{let done=false;const timer=setTimeout(()=>{if(!done){done=true;reject(new Error('زمان اتصال تمام شد. Realtime پروژه را بررسی کن.'))}},12000);
-   mpChannel.subscribe(async state=>{if(state==='SUBSCRIBED'&&!done){done=true;clearTimeout(timer);mpJoined=true;$('mpLeave').disabled=false;$('mpJoin').disabled=true;mpStatus('متصل شدی! اتاق: '+mpRoom);await mpChannel.track({id:mpId,name:mpName,x:P.x,y:P.y,z:P.z,face:P.face,m:P.m,joinedAt:Date.now()});if(!pm.userData.mpTag){pm.userData.mpTag=mpNameTag(mpName);pm.add(pm.userData.mpTag)}else{pm.userData.mpTag.userData.drawName(mpName);pm.userData.mpTag.material.map.needsUpdate=true;pm.userData.mpTag.visible=true}mpRenderPlayers();resolve()}else if((state==='CHANNEL_ERROR'||state==='TIMED_OUT')&&!done){done=true;clearTimeout(timer);reject(new Error('اتصال آنلاین ناموفق بود؛ تنظیمات Realtime را بررسی کن.'))}})
+   mpChannel.subscribe(async state=>{if(state==='SUBSCRIBED'&&!done){done=true;clearTimeout(timer);mpJoined=true;$('mpLeave').disabled=false;$('mpJoin').disabled=true;mpStatus('متصل شدی! اتاق: '+mpRoom);await mpChannel.track({id:mpId,name:mpName,x:P.x,y:P.y,z:P.z,face:P.face,m:P.m,joinedAt:Date.now()});mpApplyOutfit(pm,mpId);if(!pm.userData.mpTag){pm.userData.mpTag=mpNameTag(mpName);pm.add(pm.userData.mpTag)}else{pm.userData.mpTag.userData.drawName(mpName);pm.userData.mpTag.material.map.needsUpdate=true;pm.userData.mpTag.visible=true}mpRenderPlayers();resolve()}else if((state==='CHANNEL_ERROR'||state==='TIMED_OUT')&&!done){done=true;clearTimeout(timer);reject(new Error('اتصال آنلاین ناموفق بود؛ تنظیمات Realtime را بررسی کن.'))}})
   });
  }catch(e){console.error(e);mpStatus(e.message||'اتصال آنلاین برقرار نشد.');$('mpJoin').disabled=false}
 }
