@@ -47,20 +47,20 @@ canvas.g{position:absolute;inset:0;width:100%;height:100%}
 body:not(.playing) #hp,body:not(.playing) #st,body:not(.playing) #ob,body:not(.playing) #cx,body:not(.playing) #pr,body:not(.playing) #mm,body:not(.playing) #jb,body:not(.playing) #rc,body:not(.playing) #mu,body:not(.playing) #fs,body:not(.playing) #pa,body:not(.playing) #dm{display:none!important}
 @media (pointer:fine){#rc,#jb{display:none}#pr{bottom:60px}}
 
-/* Western online leaderboard */
-#lb{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:14px;background:#050302e8;backdrop-filter:blur(8px);touch-action:pan-y}
-#lb.open{display:flex}
-#lb .lbpanel{width:min(94vw,440px);max-height:88vh;overflow:auto;background:linear-gradient(155deg,#352113,#120b07 70%);border:2px solid #d6a15a;border-radius:14px;padding:18px;box-shadow:0 0 0 4px #2a170b,0 18px 60px #000;text-align:center}
-#lb h2{margin:0 0 4px;color:#f2ce8c;font-size:27px;text-shadow:0 2px 10px #b56a22}
-#lb .lbsub{font-size:12px;color:#c6a77b;margin-bottom:12px}
-#lb input{box-sizing:border-box;width:100%;padding:12px;border-radius:7px;border:1px solid #9d6c37;background:#100905;color:#f8e7c7;font:inherit;margin:5px 0 8px;outline:none}
-#lb button{font:inherit;font-weight:700;border:1px solid #d9a35b;border-radius:7px;background:linear-gradient(#68421f,#2b170b);color:#ffe4b0;padding:10px 14px;margin:4px;cursor:pointer}
-#lb button:active{transform:scale(.97)}
-#lb .lbtable{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
-#lb .lbtable th,#lb .lbtable td{padding:9px 4px;border-bottom:1px solid #9a6b3b55}
-#lb .lbtable th{color:#d9ae70;font-weight:700}
-#lb .lbstatus{font-size:12px;line-height:1.7;color:#d8c29d;min-height:22px}
-#lb .lbscore{font-size:12px;color:#e7c78f;margin:4px 0}
+
+#mpToggle{position:fixed;z-index:24;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;width:46px;height:46px;border-radius:50%;border:1px solid #d6a15a;background:#24170deF;color:#f5d39a;font-size:21px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px #0008}
+#mpPanel{position:fixed;z-index:60;top:calc(env(safe-area-inset-top,0px) + 66px);left:10px;width:min(340px,calc(100vw - 20px));max-height:75vh;overflow:auto;background:linear-gradient(155deg,#352113f5,#120b07f5);border:1px solid #d6a15a;border-radius:13px;padding:13px;color:#f3e3c3;display:none;box-shadow:0 12px 35px #0009;backdrop-filter:blur(10px)}
+#mpPanel.open{display:block}#mpPanel h3{margin:0 0 9px;color:#f2ce8c;font-size:20px}
+#mpPanel input,#mpPanel button{font:inherit;border-radius:8px;padding:9px;border:1px solid #76532d}
+#mpPanel input{width:100%;min-width:0;background:#160f0a;color:#fff;margin-bottom:7px}
+#mpPanel button{background:#c88a40;color:#201307;font-weight:bold;cursor:pointer}
+#mpPanel .mpr{display:flex;gap:6px;flex-wrap:wrap}#mpPanel .mpr button{flex:1}
+#mpStatus{font-size:12px;line-height:1.6;color:#d8c29d;margin:7px 0}
+#mpChat{height:100px;overflow:auto;background:#160f0a;border-radius:7px;padding:7px;font-size:12px;margin:8px 0}
+#mpPlayers{font-size:12px;line-height:1.7;color:#f1d5a2}
+#mpChatInput{flex:1;width:60%!important;margin:0!important}
+#mpSend{white-space:nowrap}
+body:not(.playing) #mpToggle{display:none}
 </style></head><body>
 <div id="dm"></div><canvas id="mm" width="96" height="96"></canvas>
 <div class="h" id="hp">❤ <span id="hv">100</span><i class="bar"><b id="hb" style="background:#c0392b;width:100%"></b></i><i class="bar" id="sbw"><b id="sb" style="background:#d9a63a;width:100%"></b></i></div>
@@ -74,9 +74,21 @@ body:not(.playing) #hp,body:not(.playing) #st,body:not(.playing) #ob,body:not(.p
 <div class="btn" id="bf" aria-label="شلیک" title="برای شلیک نگه دارید"><svg viewBox="0 0 24 24"><path d="M3 9h13l2 2h3v3h-8l-2 3H9l1-3H3z"/><path d="M5 9V6h9v3M17 11V8h2l2 3M8 17l-1 3"/><path d="M20 5l1-2M22 7h2" opacity=".7"/></svg></div>
 </div>
 <div id="sp"></div>
-<div id="pz"><h2>⏸ توقف</h2><button id="pre">ادامه بازی</button><button id="pso">تنظیمات</button><button id="lbopen2">🏆 جدول قهرمانان</button><button id="pmn">منوی اصلی</button></div>
-<div id="ov"><canvas id="bg"></canvas><div id="cinema"><div class="letter top"></div><div class="letter bottom"></div><div class="stamp">THE WILD WEST</div></div><div id="mc"><div><h1>غرب وحشی</h1><div class="tg">شهر بزرگ · اسب‌های وحشی · اردوگاه راهزن‌ها</div></div><div><button id="go">شروع بازی</button><br><button id="lbopen">🏆 جدول قهرمانان</button><br><button id="so">تنظیمات</button></div></div>
+<div id="pz"><h2>⏸ توقف</h2><button id="pre">ادامه بازی</button><button id="pso">تنظیمات</button><button id="pmn">منوی اصلی</button></div>
+<div id="ov"><canvas id="bg"></canvas><div id="cinema"><div class="letter top"></div><div class="letter bottom"></div><div class="stamp">THE WILD WEST</div></div><div id="mc"><div><h1>غرب وحشی</h1><div class="tg">شهر بزرگ · اسب‌های وحشی · اردوگاه راهزن‌ها</div></div><div><button id="go">شروع بازی</button><br><button id="so">تنظیمات</button></div></div>
 </div><div id="dustFX"></div>
+<button id="mpToggle" aria-label="بازی آنلاین" title="بازی آنلاین">🌐</button>
+<section id="mpPanel" aria-label="چندنفره آنلاین">
+<h3>🤠 غرب وحشی آنلاین</h3>
+<input id="mpName" maxlength="18" placeholder="نام کابویی">
+<input id="mpRoom" maxlength="28" value="شهر-غربی" placeholder="نام اتاق">
+<div class="mpr"><button id="mpJoin">ورود به اتاق</button><button id="mpLeave" disabled>خروج</button></div>
+<div id="mpStatus">برای دیدن دوستانت، وارد یک اتاق شوید.</div>
+<div><b>بازیکنان حاضر</b><div id="mpPlayers">فقط خودت</div></div>
+<div id="mpChat"></div>
+<div class="mpr"><input id="mpChatInput" maxlength="160" placeholder="پیام به اتاق…"><button id="mpSend">ارسال</button></div>
+<div style="font-size:11px;line-height:1.6;color:#bda785;margin-top:8px">همکاری: کنار هم بازی کنید. PvP آزمایشی: به سمت بازیکن دیگر نشانه بگیرید و شلیک کنید. این نسخه آزمایشی است و اعتبارسنجی ضدتقلب ندارد.</div>
+</section>
 <div id="set"><div class="pn"><h2 style="margin:0;color:var(--ac)">تنظیمات</h2>
 <label>موسیقی<input id="s1" type="range" min="0" max="1" step=".05"></label>
 <label>صدای افکت‌ها<input id="s2" type="range" min="0" max="1.5" step=".05"></label>
@@ -85,24 +97,11 @@ body:not(.playing) #hp,body:not(.playing) #st,body:not(.playing) #ob,body:not(.p
 <button id="sb2">بازگشت</button>
 <small>کامپیوتر: WASD حرکت · ماوس نگاه · نگه‌داشتن کلیک = شلیک خودکار · Shift دویدن/تاخت · Space پرش · E سوار/پیاده شدن اسب · H صدا زدن اسبت · R پر کردن<br>موبایل: جوی‌استیک چپ (تا آخر بکشید = تاخت)، کشیدن سمت راست برای نگاه، دکمهٔ 🔫 را نگه دارید = تیر خودکار<br>🔊 صدای رسانهٔ گوشی را زیاد کنید (حالت سایلنت آیفون را خاموش کنید)</small></div></div>
 
-<div id="lb" aria-hidden="true"><div class="lbpanel"><h2>🏆 تالار قهرمانان</h2><div class="lbsub">برترین قانون‌شکنان غرب وحشی</div><label for="lbname">نام کابویی</label><input id="lbname" maxlength="18" placeholder="نامت را وارد کن" autocomplete="nickname"><div class="lbscore" id="lbscore">رکورد فعلی: ۰</div><button id="lbsend">ثبت رکورد آنلاین</button><button id="lbrefresh">🔄 تازه‌سازی جدول</button><table class="lbtable"><thead><tr><th>رتبه</th><th>کابویی</th><th>امتیاز</th><th>اردوگاه</th></tr></thead><tbody id="lbrows"><tr><td colspan="4">برای دریافت جدول، اتصال آنلاین لازم است.</td></tr></tbody></table><div class="lbstatus" id="lbstatus">این بخش آماده اتصال به پایگاه داده آنلاین است.</div><button id="lbclose">بازگشت</button></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 let S={mus:1,sfx:1,sens:1,gfx:1};try{Object.assign(S,JSON.parse(localStorage.getItem('ww')||'{}'))}catch(e){}
 const $=id=>document.getElementById(id),R=Math.random,cl=(v,a,b)=>Math.min(b,Math.max(a,v)),V3=(x,y,z)=>new THREE.Vector3(x,y,z),PI=Math.PI;
-// Western Wild online leaderboard via Supabase public anon key; RLS limits public access to reading and score submissions.
-const LB_SUPABASE_URL='https://pwwicgyrycaexjnnhseb.supabase.co';
-const LB_SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB3d2ljZ3lyeWNhZXhqbm5oc2ViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwMzczMjgsImV4cCI6MjEwNjYxMzMyOH0.860RskDmycONZUHyOloN8AmKqRkzU5YNXUUze2DuPdM';
-function lbConfigured(){return /^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(LB_SUPABASE_URL)&&LB_SUPABASE_ANON_KEY!=='YOUR_SUPABASE_ANON_KEY'&&LB_SUPABASE_ANON_KEY.length>20}
-function lbScore(){const cleared=typeof camps!=='undefined'?camps.filter(c=>c.done).length:0;return {score:Math.max(0,Math.floor((typeof P!=='undefined'?P.cash:0)+cleared*1000)),cash:typeof P!=='undefined'?Math.max(0,Math.floor(P.cash)):0,camps_cleared:cleared}}
-function lbStatus(t){const e=$('lbstatus');if(e)e.textContent=t}
-function lbOpen(){if(typeof paused!=='undefined'&&started&&!paused)setPause(1);$('lb').classList.add('open');$('lb').setAttribute('aria-hidden','false');const s=lbScore();$('lbscore').textContent='رکورد فعلی: '+s.score.toLocaleString('fa-IR')+' امتیاز · '+s.camps_cleared.toLocaleString('fa-IR')+' اردوگاه';lbLoad()}
-function lbClose(){ $('lb').classList.remove('open');$('lb').setAttribute('aria-hidden','true');if(started&&paused&&$('pz').style.display!=='flex')setPause(0)}
-async function lbRequest(path,options={}){const r=await fetch(LB_SUPABASE_URL+'/rest/v1/'+path,{...options,headers:{apikey:LB_SUPABASE_ANON_KEY,Authorization:'Bearer '+LB_SUPABASE_ANON_KEY,'Content-Type':'application/json',Prefer:'return=minimal',...(options.headers||{})}});if(!r.ok)throw new Error('HTTP '+r.status);return options.method==='POST'||r.status===204?null:r.json()}
-async function lbLoad(){if(!lbConfigured()){ $('lbrows').innerHTML='<tr><td colspan="4">هنوز به پایگاه داده آنلاین متصل نشده.</td></tr>';lbStatus('اتصال آنلاین پیکربندی نشده است.');return}lbStatus('در حال دریافت رکوردها…');try{const rows=await lbRequest('western_leaderboard?select=name,score,camps_cleared&order=score.desc&limit=10');$('lbrows').innerHTML=rows.length?rows.map((r,i)=>'<tr><td>'+(['🥇','🥈','🥉'][i]||String(i+1))+'</td><td>'+lbEscape(r.name)+'</td><td>'+Number(r.score).toLocaleString('fa-IR')+'</td><td>'+Number(r.camps_cleared).toLocaleString('fa-IR')+'</td></tr>').join(''):'<tr><td colspan="4">هنوز رکوردی ثبت نشده؛ اولین قهرمان باش!</td></tr>';lbStatus('جدول آنلاین به‌روز شد.')}catch(e){lbStatus('اتصال ناموفق بود. تنظیمات Supabase و مجوزهای جدول را بررسی کن.')}}
-function lbEscape(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-async function lbSubmit(){if(!lbConfigured()){lbStatus('اتصال آنلاین پیکربندی نشده است.');return}const name=$('lbname').value.trim();if(name.length<2){lbStatus('یک نام ۲ تا ۱۸ حرفی وارد کن.');return}const s=lbScore();$('lbsend').disabled=true;lbStatus('در حال ثبت رکورد…');try{await lbRequest('western_leaderboard',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify({name,score:s.score,cash:s.cash,camps_cleared:s.camps_cleared})});lbStatus('رکوردت آنلاین ثبت شد!');await lbLoad()}catch(e){lbStatus('ثبت انجام نشد؛ اتصال اینترنت یا دسترسی جدول را بررسی کن.')}finally{$('lbsend').disabled=false}}
-
 const ad=(a,b)=>{let d=(b-a)%(2*PI);if(d>PI)d-=2*PI;if(d<-PI)d+=2*PI;return d};
 function H(x,z){const f=cl((Math.hypot(x*2.4,z)-120)/60,0,1);let h=Math.sin(x*.02)*6+Math.cos(z*.017)*7+Math.sin((x+z)*.05)*2.5+Math.sin(x*.11)*Math.cos(z*.09)*.8;h+=Math.max(0,Math.sin(x*.008+1)*Math.cos(z*.007))*28;return h*f}
 const rp=()=>{let x,z;do{x=(R()-.5)*570;z=(R()-.5)*570}while(Math.hypot(x*2.4,z)<135);return[x,z]};
@@ -175,6 +174,68 @@ for(let i=0;i<7;i++){const[x,z]=rp();mkHorse(x,z,hcol[i%7],R()*6,1)}
 const pm=arm(man(0x7a2a22,0x3b2a1a));sc.add(pm);
 const npc=[];for(let i=0;i<9;i++){const m=man([0x556b8d,0x8d5555,0x5d7a52,0x777777][i%4],[0x222222,0x6b5a3a][i%2],0x3a3a4a),n={m,x:(i%2?1:-1)*(6+R()*8),z:-90+R()*180,dir:i%3?1:-1,v:1.3+R()};sc.add(m);npc.push(n)}
 const P={x:2,z:36,jy:0,vy:0,vx:0,vz:0,face:PI,yaw:PI,pitch:.35,y:0,hp:100,ammo:30,res:120,cash:0,m:0,h:null,cd:0,rl:0,dead:0,ph:0,q:0,st:100,tired:0,hurtT:0,aim:0,alert:0};
+
+const MP_URL='https://pwwicgyrycaexjnnhseb.supabase.co';
+const MP_KEY='sb_publishable_CiQbGJJx_WGbeGTPssoWYQ_kutyUJh9';
+const mpId=(crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2));
+let mpClient=null,mpChannel=null,mpJoined=false,mpRoom='',mpName='',mpLast=0,mpRemote=new Map(),mpAvatars=new Map(),mpHorses=new Map();
+function mpStatus(t){$('mpStatus').textContent=t}
+function mpChatLine(who,text){const el=document.createElement('div');el.textContent=who+': '+text;$('mpChat').appendChild(el);$('mpChat').scrollTop=$('mpChat').scrollHeight}
+function mpRenderPlayers(){const a=[mpName||'تو',...Array.from(mpRemote.values()).map(p=>p.name||'کابویی')];$('mpPlayers').textContent=a.join(' · ')}
+function mpSend(event,payload){if(mpJoined&&mpChannel)mpChannel.send({type:'broadcast',event,payload}).catch(()=>{})}
+function mpRemoteRemove(pid){mpRemote.delete(pid);if(mpAvatars.has(pid)){sc.remove(mpAvatars.get(pid));mpAvatars.delete(pid)}if(mpHorses.has(pid)){sc.remove(mpHorses.get(pid));mpHorses.delete(pid)}mpRenderPlayers()}
+function mpRemoteState(p){
+ if(!p||!p.id||p.id===mpId)return;
+ mpRemote.set(p.id,p);
+ if(!mpAvatars.has(p.id)){const a=man(0x4f6c74,0x33271b);sc.add(a);mpAvatars.set(p.id,a)}
+ const a=mpAvatars.get(p.id);a.position.set(Number(p.x)||0,(Number(p.y)||0)+.05,Number(p.z)||0);a.rotation.set(0,Number(p.face)||0,0);
+ if(p.m){if(!mpHorses.has(p.id)){const h=horse(0x9b7547);sc.add(h);mpHorses.set(p.id,h)}const h=mpHorses.get(p.id);h.visible=true;h.position.set(Number(p.x)||0,Number(p.y)||0,Number(p.z)||0);h.rotation.y=Number(p.face)||0;a.position.y+=1.1}else if(mpHorses.has(p.id))mpHorses.get(p.id).visible=false;
+ mpRenderPlayers()
+}
+async function mpJoin(){
+ if(mpJoined)return;
+ mpName=$('mpName').value.trim().slice(0,18)||'کابویی';mpRoom=$('mpRoom').value.trim().replace(/[^\p{L}\p{N}_-]/gu,'-').slice(0,28)||'شهر-غربی';
+ $('mpJoin').disabled=true;mpStatus('در حال اتصال به اتاق…');
+ try{
+  if(!window.supabase)throw new Error('کتابخانه اتصال آنلاین بارگذاری نشد؛ اینترنت را بررسی کن.');
+  mpClient=window.supabase.createClient(MP_URL,MP_KEY);
+  mpChannel=mpClient.channel('gharb-live:'+mpRoom,{config:{presence:{key:mpId},broadcast:{self:false}}});
+  mpChannel.on('presence',{event:'sync'},()=>{for(const [key,items] of Object.entries(mpChannel.presenceState())){for(const p of items)if(p.id!==mpId)mpRemoteState(p)}});
+  mpChannel.on('presence',{event:'join'},({newPresences})=>newPresences.forEach(mpRemoteState));
+  mpChannel.on('presence',{event:'leave'},({leftPresences,key})=>leftPresences.forEach(p=>mpRemoteRemove(p.id||key)));
+  mpChannel.on('broadcast',{event:'state'},({payload})=>mpRemoteState(payload));
+  mpChannel.on('broadcast',{event:'chat'},({payload})=>{if(payload&&payload.id!==mpId)mpChatLine(payload.name||'کابویی',payload.text||'')});
+  mpChannel.on('broadcast',{event:'shot'},({payload})=>{
+   if(!payload||payload.id===mpId||P.dead)return;
+   const dx=P.x-payload.x,dz=P.z-payload.z,dist=Math.hypot(dx,dz),ang=Math.atan2(dx,dz);
+   if(dist<75&&Math.abs(ad(ang,payload.yaw||0))<.18){P.hp=Math.max(0,P.hp-15);$('hv').textContent=Math.ceil(P.hp);$('hb').style.width=P.hp+'%';msg('🔫 به تو شلیک شد! (PvP آزمایشی)',1300);if(P.hp<=0){P.dead=1;msg('در مبارزه شکست خوردی؛ بازی را دوباره شروع کن.',3000)}}
+  });
+  mpChannel.on('broadcast',{event:'hit'},({payload})=>{if(payload&&payload.id!==mpId)msg((payload.name||'بازیکن')+' به یک کابویی شلیک کرد',1000)});
+  mpChannel.on('broadcast',{event:'mode'},({payload})=>{if(payload&&payload.mode)mpStatus('اتاق آنلاین شد • حالت '+(payload.mode==='pvp'?'مبارزه':'همکاری'))});
+  await new Promise((resolve,reject)=>{let done=false;const timer=setTimeout(()=>{if(!done){done=true;reject(new Error('زمان اتصال تمام شد. Realtime پروژه را بررسی کن.'))}},12000);
+   mpChannel.subscribe(async state=>{if(state==='SUBSCRIBED'&&!done){done=true;clearTimeout(timer);mpJoined=true;$('mpLeave').disabled=false;$('mpJoin').disabled=true;mpStatus('متصل شدی! اتاق: '+mpRoom);await mpChannel.track({id:mpId,name:mpName,x:P.x,y:P.y,z:P.z,face:P.face,m:P.m,joinedAt:Date.now()});mpRenderPlayers();resolve()}else if((state==='CHANNEL_ERROR'||state==='TIMED_OUT')&&!done){done=true;clearTimeout(timer);reject(new Error('اتصال آنلاین ناموفق بود؛ تنظیمات Realtime را بررسی کن.'))}})
+  });
+ }catch(e){console.error(e);mpStatus(e.message||'اتصال آنلاین برقرار نشد.');$('mpJoin').disabled=false}
+}
+async function mpLeave(){
+ const old=mpChannel;mpJoined=false;mpChannel=null;mpRemote.clear();
+ for(const id of [...mpAvatars.keys()])mpRemoteRemove(id);
+ for(const h of mpHorses.values())sc.remove(h);mpHorses.clear();
+ if(old&&mpClient){try{await mpClient.removeChannel(old)}catch(e){}}
+ $('mpJoin').disabled=false;$('mpLeave').disabled=true;mpStatus('از اتاق خارج شدی.');mpRenderPlayers()
+}
+function mpTick(){
+ if(!mpJoined||!mpChannel)return;
+ const now=performance.now();if(now-mpLast<100)return;mpLast=now;
+ const state={id:mpId,name:mpName,x:P.x,y:P.y,z:P.z,face:P.face,m:P.m,health:P.hp};
+ mpSend('state',state);
+}
+$('mpToggle').onclick=()=>$('mpPanel').classList.toggle('open');
+$('mpJoin').onclick=mpJoin;$('mpLeave').onclick=mpLeave;
+$('mpSend').onclick=()=>{const text=$('mpChatInput').value.trim();if(!text||!mpJoined)return;mpChatLine(mpName,text);mpSend('chat',{id:mpId,name:mpName,text});$('mpChatInput').value=''};
+$('mpChatInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('mpSend').click()});
+addEventListener('beforeunload',()=>{if(mpClient&&mpChannel)mpClient.removeChannel(mpChannel)});
+
 // camps, bandits, animals
 const en=[],camps=[],an=[];
 for(let i=0;i<8;i++){const a=i*.8+.4,r=175+(i%4)*26,cx=Math.cos(a)*r,cz=Math.sin(a)*r,cy=H(cx,cz),boss=i==7,c={x:cx,z:cz,left:boss?6:5,done:0};
@@ -227,7 +288,7 @@ function nearH(){let b=null,bd=5.5;for(const h of horses){const d=Math.hypot(P.x
 function mount(){if(!started||P.dead)return;if(P.m){P.h.x=P.x+2.5;P.h.z=P.z;P.m=0;P.h=null;return}const b=nearH();if(b){P.m=1;P.h=b;b.call=0;b.wild=0;tone(750,320,.6,.5,'sawtooth');nz(.3,'bandpass',900,400,.5);msg('🐎 سوار شدی · Shift = تاخت · Space = پرش',2200)}}
 function reload(){if(!started||P.rl>0||P.ammo>=30||P.res<=0)return;P.rl=1.5;nz(.05,'highpass',3000,5000,.5);setTimeout(()=>nz(.05,'highpass',3000,5000,.5),500);setTimeout(()=>nz(.06,'highpass',2000,4000,.6),1100);setTimeout(()=>nz(.09,'highpass',1500,3000,.7),1450)}
 function hurt(n){P.hp-=n;P.hurtT=8;$('dm').style.opacity=.7;nz(.2,'lowpass',400,100,.9);tone(120,50,.25,.7);if(P.hp<=0&&!P.dead){P.dead=1;msg('کشته شدی…',2800);setTimeout(()=>{P.dead=0;P.hp=100;P.x=2;P.z=36;P.m=0;P.h=null;P.cash=Math.floor(P.cash*.8);P.ammo=30},3000)}}
-function shoot(){if(!started||P.dead||P.rl>0||P.cd>0)return;if(P.ammo<=0){reload();return}P.ammo--;if(P.ammo<=0)setTimeout(reload,200);P.cd=.11;P.aim=.6;gun();P.pitch=cl(P.pitch-.012,-.35,1.1);flash.intensity=4;pm.userData.gn.userData.mf.visible=true;P.mf=.05;
+function shoot(){if(!started||P.dead||P.rl>0||P.cd>0)return;if(P.ammo<=0){reload();return}P.ammo--;if(mpJoined)mpSend('shot',{id:mpId,name:mpName,x:P.x,y:P.y+1.5,z:P.z,yaw:P.yaw,pitch:P.pitch});if(P.ammo<=0)setTimeout(reload,200);P.cd=.11;P.aim=.6;gun();P.pitch=cl(P.pitch-.012,-.35,1.1);flash.intensity=4;pm.userData.gn.userData.mf.visible=true;P.mf=.05;
 const o=cam.position,dir=new THREE.Vector3();cam.getWorldDirection(dir);const mz=pm.userData.gn.localToWorld(V3(0,.02,1));flash.position.copy(mz);let best=null,bt=1e9,hh=0;
 for(const e of[...en,...an]){if(!e.alive)continue;const c=V3(e.x,e.y+e.hc,e.z).sub(o),t=c.dot(dir);if(t<1||t>260||t>bt)continue;if(c.sub(dir.clone().multiplyScalar(t)).length()<e.rad&&!blk(P.x,P.z,e.x,e.z)){bt=t;best=e;hh=o.y+dir.y*t-e.y>e.hd}}
 tracer(mz,o.clone().addScaledVector(dir,best?bt:150),0xffdd88);
@@ -279,14 +340,14 @@ const T=(x,z,col,r)=>{const dx=x-P.x,dz=z-P.z;let a=(dx*Math.cos(P.yaw)-dz*Math.
 T(0,0,'#d9b36a',6);for(const h of horses)if(Math.hypot(h.x-P.x,h.z-P.z)<150)T(h.x,h.z,'#b9854a',2);for(const e of an)if(e.alive&&Math.hypot(e.x-P.x,e.z-P.z)<120)T(e.x,e.z,'#6c6',2);
 for(const e of en)if(e.alive&&Math.hypot(e.x-P.x,e.z-P.z)<90)T(e.x,e.z,'#f44',2.5);for(const m of camps)if(!m.done)T(m.x,m.z,'#fa3',4);
 c.fillStyle='#fff';c.beginPath();c.moveTo(48,41);c.lineTo(53,53);c.lineTo(43,53);c.fill()}
-let paused=0,fr=0,last=performance.now();function loop(now){requestAnimationFrame(loop);const dt=Math.min(.05,(now-last)/1000);last=now;if(started&&!paused)update(dt);if(A){cg2.gain.value=started?night*.02:0;music()}sky();if(started||!(fr++%20))rd.render(sc,cam)}
+let paused=0,fr=0,last=performance.now();function loop(now){requestAnimationFrame(loop);const dt=Math.min(.05,(now-last)/1000);last=now;if(started&&!paused){update(dt);mpTick()}if(A){cg2.gain.value=started?night*.02:0;music()}sky();if(started||!(fr++%20))rd.render(sc,cam)}
 $('go').onclick=()=>{if(started)return;if(!A)initAudio();A.resume();const intro=$('cinema');intro.classList.remove('active');intro.style.display='block';void intro.offsetWidth;intro.classList.add('active');$('go').disabled=true;setTimeout(()=>{started=1;document.body.classList.add('playing');$('ov').style.display='none';$('dustFX').classList.add('active');intro.classList.remove('active');intro.style.display='none';$('go').disabled=false;$('pa').style.display='flex';if(matchMedia('(pointer:fine)').matches)rd.domElement.requestPointerLock();msg('به غرب وحشی خوش آمدی؛ نور نارنجی = اردوگاه راهزن‌ها',3500)},1050)};
 $('fs').onclick=()=>{const d=document,e=d.documentElement;try{if(d.fullscreenElement||d.webkitFullscreenElement){(d.exitFullscreen||d.webkitExitFullscreen).call(d)}else{const f=e.requestFullscreen||e.webkitRequestFullscreen;if(!f){msg('این مرورگر تمام‌صفحه را پشتیبانی نمی‌کند؛ لینک را در مرورگر باز کنید',3500);return}const r=f.call(e);if(r&&r.catch)r.catch(()=>msg('اجازهٔ تمام‌صفحه داده نشد؛ لینک را مستقیم در مرورگر باز کنید',3500))}}catch(x){msg('تمام‌صفحه ممکن نیست',2500)}};addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();rd.setSize(innerWidth,innerHeight)});
 
 // tiny ambient dust motes for the western menu
 {const fx=$('dustFX');for(let i=0;i<14;i++){const q=document.createElement('i');q.style.left=(8+Math.random()*84)+'%';q.style.bottom=(3+Math.random()*18)+'%';q.style.setProperty('--dx',((Math.random()-.5)*100)+'px');q.style.animationDelay=(Math.random()*1.2)+'s';q.style.animationDuration=(.8+Math.random()*.8)+'s';fx.appendChild(q)}}
 // splash + menu
-$('lbopen').onclick=lbOpen;$('lbopen2').onclick=lbOpen;$('lbclose').onclick=lbClose;$('lbrefresh').onclick=lbLoad;$('lbsend').onclick=lbSubmit;$('lb').addEventListener('click',e=>{if(e.target===$('lb'))lbClose()});
+
 $('sp').remove(); // حذف صفحه سفید ابتدایی؛ منوی بازی بلافاصله نمایش داده می‌شود.
 function setPause(on){if(!started||paused==on)return;paused=on;fh=0;$('pz').style.display=on?'flex':'none';if(on&&document.pointerLockElement)document.exitPointerLock();if(!on&&matchMedia('(pointer:fine)').matches)rd.domElement.requestPointerLock()}
 $('pa').onclick=()=>setPause(1);$('pre').onclick=()=>setPause(0);$('pso').onclick=()=>$('set').style.display='flex';$('pmn').onclick=()=>{location.hash='m';location.reload()};
