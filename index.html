@@ -56,10 +56,10 @@ body:not(.playing) #hp,body:not(.playing) #st,body:not(.playing) #ob,body:not(.p
 #mpPanel button{background:#c88a40;color:#201307;font-weight:bold;cursor:pointer}
 #mpPanel .mpr{display:flex;gap:6px;flex-wrap:wrap}#mpPanel .mpr button{flex:1}
 #mpStatus{font-size:12px;line-height:1.6;color:#d8c29d;margin:7px 0}
-#mpChat{height:100px;overflow:auto;background:#160f0a;border-radius:7px;padding:7px;font-size:12px;margin:8px 0}
+
 #mpPlayers{font-size:12px;line-height:1.7;color:#f1d5a2}
-#mpChatInput{flex:1;width:60%!important;margin:0!important}
-#mpSend{white-space:nowrap}
+
+
 body:not(.playing) #mpToggle{display:none}
 </style></head><body>
 <div id="dm"></div><canvas id="mm" width="96" height="96"></canvas>
@@ -85,8 +85,7 @@ body:not(.playing) #mpToggle{display:none}
 <div class="mpr"><button id="mpJoin">ورود به اتاق</button><button id="mpLeave" disabled>خروج</button><button id="mpMode">حالت: همکاری</button></div>
 <div id="mpStatus">برای دیدن دوستانت، وارد یک اتاق شوید.</div>
 <div><b>بازیکنان حاضر</b><div id="mpPlayers">فقط خودت</div></div>
-<div id="mpChat"></div>
-<div class="mpr"><input id="mpChatInput" maxlength="160" placeholder="پیام به اتاق…"><button id="mpSend">ارسال</button></div>
+
 <div style="font-size:11px;line-height:1.6;color:#bda785;margin-top:8px">همکاری: کنار هم بازی کنید. PvP آزمایشی: به سمت بازیکن دیگر نشانه بگیرید و شلیک کنید. این نسخه آزمایشی است و اعتبارسنجی ضدتقلب ندارد.</div>
 </section>
 <div id="set"><div class="pn"><h2 style="margin:0;color:var(--ac)">تنظیمات</h2>
@@ -180,7 +179,6 @@ const MP_KEY='sb_publishable_CiQbGJJx_WGbeGTPssoWYQ_kutyUJh9';
 const mpId=(crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2));
 let mpClient=null,mpChannel=null,mpJoined=false,mpRoom='',mpName='',mpLast=0,mpMode='coop',mpRemote=new Map(),mpAvatars=new Map(),mpHorses=new Map();
 function mpStatus(t){$('mpStatus').textContent=t}
-function mpChatLine(who,text){const el=document.createElement('div');el.textContent=who+': '+text;$('mpChat').appendChild(el);$('mpChat').scrollTop=$('mpChat').scrollHeight}
 function mpRenderPlayers(){const a=[mpName||'تو',...Array.from(mpRemote.values()).map(p=>p.name||'کابویی')];$('mpPlayers').textContent=a.join(' · ')}
 function mpSend(event,payload){if(mpJoined&&mpChannel)mpChannel.send({type:'broadcast',event,payload}).catch(()=>{})}
 function mpRemoteRemove(pid){mpRemote.delete(pid);if(mpAvatars.has(pid)){sc.remove(mpAvatars.get(pid));mpAvatars.delete(pid)}if(mpHorses.has(pid)){sc.remove(mpHorses.get(pid));mpHorses.delete(pid)}mpRenderPlayers()}
@@ -204,7 +202,6 @@ async function mpJoin(){
   mpChannel.on('presence',{event:'join'},({newPresences})=>newPresences.forEach(mpRemoteState));
   mpChannel.on('presence',{event:'leave'},({leftPresences,key})=>leftPresences.forEach(p=>mpRemoteRemove(p.id||key)));
   mpChannel.on('broadcast',{event:'state'},({payload})=>mpRemoteState(payload));
-  mpChannel.on('broadcast',{event:'chat'},({payload})=>{if(payload&&payload.id!==mpId)mpChatLine(payload.name||'کابویی',payload.text||'')});
   mpChannel.on('broadcast',{event:'shot'},({payload})=>{
    if(!payload||payload.id===mpId||P.dead||mpMode!=='pvp')return;
    const dx=P.x-payload.x,dz=P.z-payload.z,dist=Math.hypot(dx,dz),ang=Math.atan2(dx,dz);
@@ -232,8 +229,6 @@ function mpTick(){
 }
 $('mpToggle').onclick=()=>$('mpPanel').classList.toggle('open');
 $('mpJoin').onclick=mpJoin;$('mpLeave').onclick=mpLeave;$('mpMode').onclick=()=>{mpMode=mpMode==='coop'?'pvp':'coop';$('mpMode').textContent='حالت: '+(mpMode==='pvp'?'مبارزه PvP':'همکاری');mpStatus('حالت اتاق: '+(mpMode==='pvp'?'مبارزه PvP':'همکاری'));mpSend('mode',{mode:mpMode})};
-$('mpSend').onclick=()=>{const text=$('mpChatInput').value.trim();if(!text||!mpJoined)return;mpChatLine(mpName,text);mpSend('chat',{id:mpId,name:mpName,text});$('mpChatInput').value=''};
-$('mpChatInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('mpSend').click()});
 addEventListener('beforeunload',()=>{if(mpClient&&mpChannel)mpClient.removeChannel(mpChannel)});
 
 // camps, bandits, animals
