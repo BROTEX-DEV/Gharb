@@ -268,7 +268,7 @@ function mpOutfit(id){
 function mpApplyOutfit(model,id){
  const outfit=mpOutfit(id);
  model.traverse(o=>{if(!o.isMesh||!o.material)return;let color=null;
-  if(Math.abs((o.parent&&o.parent.position.y)||0-.9)<.001)color=outfit[2];
+  if(Math.abs(((o.parent&&o.parent.position.y)||0)-.9)<.001)color=outfit[2];
   if(o.parent&&Math.abs(o.parent.position.y-1.65)<.001)color=outfit[0];
   if(o.parent===model&&Math.abs(o.position.y-1.3)<.001)color=outfit[0];
   if(o.parent===model&&(Math.abs(o.position.y-2.1)<.001||Math.abs(o.position.y-2.24)<.001))color=outfit[1];
