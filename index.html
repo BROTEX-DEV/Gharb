@@ -46,193 +46,10 @@ canvas.g{position:absolute;inset:0;width:100%;height:100%}
 /* Keep gameplay HUD and controls hidden until the player starts the game. */
 body:not(.playing) #hp,body:not(.playing) #st,body:not(.playing) #ob,body:not(.playing) #cx,body:not(.playing) #pr,body:not(.playing) #mm,body:not(.playing) #jb,body:not(.playing) #rc,body:not(.playing) #mu,body:not(.playing) #fs,body:not(.playing) #pa,body:not(.playing) #dm{display:none!important}
 @media (pointer:fine){#rc,#jb{display:none}#pr{bottom:60px}}
-
-
-.menu-actions{display:flex;flex-direction:column;gap:10px;min-width:min(230px,75vw)}.menu-actions button{width:100%;margin:0}#mpToggle{position:fixed;z-index:24;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;width:46px;height:46px;border-radius:50%;border:1px solid #d6a15a;background:#24170deF;color:#f5d39a;font-size:21px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px #0008}
-#mpPanel{position:fixed;z-index:60;top:calc(env(safe-area-inset-top,0px) + 66px);left:10px;width:min(340px,calc(100vw - 20px));max-height:75vh;overflow:auto;background:linear-gradient(155deg,#352113f5,#120b07f5);border:1px solid #d6a15a;border-radius:13px;padding:13px;color:#f3e3c3;display:none;box-shadow:0 12px 35px #0009;backdrop-filter:blur(10px)}
-#mpPanel.open{display:block}#mpPanel h3{margin:0 0 9px;color:#f2ce8c;font-size:20px}
-#mpPanel input,#mpPanel button{font:inherit;border-radius:8px;padding:9px;border:1px solid #76532d}
-#mpPanel input{width:100%;min-width:0;background:#160f0a;color:#fff;margin-bottom:7px}
-#mpPanel button{background:#c88a40;color:#201307;font-weight:bold;cursor:pointer}
-#mpPanel .mpr{display:flex;gap:6px;flex-wrap:wrap}#mpPanel .mpr button{flex:1}
-#mpStatus{font-size:12px;line-height:1.6;color:#d8c29d;margin:7px 0}
-
-#mpPlayers{font-size:12px;line-height:1.7;color:#f1d5a2}
-
-
-body:not(.playing) #mpToggle{display:none}
-
-#shopToggle{right:150px;cursor:pointer;z-index:8;background:#2b1a0c;color:#f4d39a;border:1px solid #d98b3a;border-radius:10px;display:none;align-items:center;justify-content:center}
-body.playing #shopToggle{display:flex}
-#shopPanel{display:none;position:absolute;z-index:30;left:50%;top:50%;transform:translate(-50%,-50%);width:min(340px,calc(100vw - 32px));max-height:80vh;overflow:auto;box-sizing:border-box;padding:18px;border:2px solid #bd7d36;border-radius:15px;background:linear-gradient(145deg,#2b1a0c,#100a06);color:#f4e3c4;box-shadow:0 12px 45px #000c;touch-action:pan-y}
-#shopPanel.open{display:block}
-#shopPanel h3{margin:0 0 6px;text-align:center;color:#f3bd72}
-#shopBalance{text-align:center;margin:8px 0 12px;font-weight:800;font-size:18px;color:#ffd58c}
-.shopItem{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid #8b633944}
-.shopItem small{display:block;color:#c9b08b;font-size:11px;margin-top:3px}
-#shopPanel button{border:1px solid #e6b76d;border-radius:8px;background:#b8762f;color:#211205;padding:9px 12px;font-family:inherit;font-weight:800;cursor:pointer;white-space:nowrap}
-#shopClose{width:100%;margin-top:10px;background:#382719!important;color:#f4e3c4!important}
-#cashHud{position:absolute;top:112px;left:12px;z-index:4;background:#24170dbb;border:1px solid #d98b3a;border-radius:8px;padding:5px 9px;color:#ffd58c;font-weight:800;font-size:13px;direction:rtl;pointer-events:none}
-body:not(.playing) #cashHud{display:none}
-@media(max-width:420px){#shopToggle{right:150px}#cashHud{top:110px}}
-
-/* Visual refresh: cinematic western menu, cleaner HUD and polished panels */
-:root{--gold:#e5b46b;--gold-soft:#b87937;--leather:#211309;--ink:#100905}
-button,input{font-family:var(--font-fa)}
-#ov{background:radial-gradient(ellipse at 50% 38%,#5d351d44 0%,#1a0e08a8 46%,#080503f2 100%)}
-#mc{width:min(440px,calc(100vw - 34px));box-sizing:border-box;padding:clamp(22px,5vw,38px) clamp(18px,5vw,32px);border:1px solid #e2b36b99;border-radius:5px;background:linear-gradient(145deg,#26170eeF,#100905f5 70%);box-shadow:0 0 0 5px #1b0d0788,0 20px 70px #000c,inset 0 0 35px #d18b3020;position:relative;overflow:hidden}
-#mc:before,#mc:after{content:"✦";position:absolute;color:#e6b76e99;font-size:22px;pointer-events:none}
-#mc:before{top:10px;left:13px}#mc:after{right:13px;bottom:8px}
-#mc h1{font-size:clamp(38px,9vw,62px);line-height:1.2;margin:0 0 12px;color:#f8dfae;text-shadow:0 3px 0 #4a2410,0 0 24px #d8893655;letter-spacing:.02em}
-#mc .tg{font-size:clamp(11px,2.8vw,14px);line-height:1.9;color:#d7bd96;margin:0 auto 24px;max-width:300px}
-.menu-actions{display:flex;flex-direction:column;gap:11px;width:100%;max-width:310px;margin:0 auto}
-#mc .menu-actions button{width:100%;min-height:49px;border:1px solid #c38a48;border-radius:3px;color:#f6dfb2;font-size:15px;font-weight:800;letter-spacing:.02em;background:linear-gradient(180deg,#59351c,#2b170b 55%,#170b06);box-shadow:0 4px 0 #100804, inset 0 1px #f3c98244,0 0 18px #bd762b12}
-#mc .menu-actions button:first-child{background:linear-gradient(180deg,#a76b31,#663916 55%,#38200d);color:#fff0cd}
-#mc .menu-actions button:hover{border-color:#ffe0a0;filter:brightness(1.13);box-shadow:0 4px 0 #100804,inset 0 1px #f3c98255,0 0 24px #d98b3a30}
-#mc .menu-actions button:focus-visible,#shopPanel button:focus-visible,#mpPanel button:focus-visible{outline:2px solid #ffe2a1;outline-offset:3px}
-#hp,#st{padding:9px 11px;border:1px solid #e0b36a77;border-radius:4px;background:linear-gradient(135deg,#1a100bdc,#080604c9);box-shadow:0 4px 16px #0007;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-#hp{top:12px;left:12px}#st{top:12px;right:12px}
-.bar{height:7px;border:1px solid #f4dfbb66;border-radius:2px;overflow:hidden;background:#090604}
-.bar b{transition:width .18s ease}
-#mm{border:2px solid #e5b46b;border-radius:50%;box-shadow:0 0 0 3px #170b08aa,0 5px 16px #0009}
-#cx{box-shadow:0 0 8px #fff5}
-#tt{left:50%;right:auto;transform:translateX(-50%);width:max-content;max-width:calc(100vw - 36px);box-sizing:border-box;padding:10px 16px;border:1px solid #dca45e;border-radius:4px;background:#160d08ed;color:#ffe2ad;font-size:clamp(14px,3.5vw,19px);box-shadow:0 8px 30px #0009;pointer-events:none}
-#shopToggle{top:60px;width:40px;height:40px;border:1px solid #e5b46b;border-radius:5px;background:linear-gradient(145deg,#563318,#1b0d07);box-shadow:0 4px 12px #0008,inset 0 1px #fff2;font-size:18px;transition:transform .15s,filter .15s}
-#shopToggle:active{transform:scale(.94);filter:brightness(1.2)}
-#cashHud{top:112px;border:1px solid #dca45e88;border-radius:4px;background:linear-gradient(135deg,#28170ceF,#0f0805eF);box-shadow:0 4px 14px #0008;padding:7px 10px}
-#shopPanel{border:1px solid #e5b46b;border-radius:5px;background:radial-gradient(ellipse at top,#4b2b16,#1c1009 60%,#100805);box-shadow:0 0 0 4px #120904aa,0 22px 70px #000e,inset 0 0 24px #e0a35412;padding:20px;animation:shopIn .22s ease-out}
-#shopPanel:before{content:"✦  ✦  ✦";display:block;text-align:center;color:#dca45e88;letter-spacing:.45em;margin-bottom:8px}
-#shopPanel h3{font-size:23px;color:#ffe0a2;text-shadow:0 2px #3d1d0c}
-#shopPanel .shopItem{padding:13px 0;border-top:1px solid #c28a4c33}
-.shopItem>div{font-weight:700;color:#f5e3c5}
-.shopItem small{color:#c9ae89}
-#shopPanel button{border:1px solid #eac17f;border-radius:3px;background:linear-gradient(180deg,#d99b4e,#96551f);box-shadow:inset 0 1px #fff5,0 2px 0 #4a260e;color:#1c0e05;transition:filter .15s,transform .15s}
-#shopPanel button:active{transform:translateY(1px);filter:brightness(1.1)}
-#shopClose{background:linear-gradient(180deg,#392417,#201209)!important;color:#f4e3c4!important;border-color:#9c713e!important}
-#mpPanel{border:1px solid #e0b36a;border-radius:5px;background:radial-gradient(ellipse at top,#422717,#1a0f08 62%,#100805);box-shadow:0 0 0 4px #100804a8,0 18px 55px #000c,inset 0 0 25px #d98b3a10;padding:18px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-#mpPanel h3{color:#ffe0a2;text-align:center;font-size:20px;margin:0 0 14px}
-#mpPanel input{border:1px solid #8d6439;border-radius:3px;background:#100905;color:#ffe7c0;padding:11px 10px;outline:none}
-#mpPanel input:focus{border-color:#e5b46b;box-shadow:0 0 0 2px #d98b3a2b}
-#mpPanel input::placeholder{color:#9d8569}
-#mpPanel button{border:1px solid #e7bb78;border-radius:3px;background:linear-gradient(180deg,#d69a4d,#98561f);box-shadow:inset 0 1px #fff4;color:#211105;padding:10px 9px;transition:filter .15s,transform .15s}
-#mpPanel button:active{transform:translateY(1px);filter:brightness(1.08)}
-#mpPanel button:disabled{opacity:.45;filter:grayscale(.6)}
-#mpStatus{padding:8px 9px;border:1px solid #8d643933;background:#0b0705aa;border-radius:3px}
-#mpPlayers{padding:8px 9px;border:1px solid #8d643933;border-radius:3px;background:#0b0705aa}
-.ib{border:1px solid #d6a25c;border-radius:5px;background:linear-gradient(145deg,#3b2414,#140b06);box-shadow:0 4px 12px #0009,inset 0 1px #fff2;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);transition:filter .15s,transform .15s}
-.ib:active{transform:scale(.94);filter:brightness(1.15)}
-#jb{background:#1a100b66;border:1px solid #e5b46b99;box-shadow:0 5px 20px #0006}
-#jk{background:linear-gradient(145deg,#f2d7a6bb,#98612fbb);border:1px solid #ffe4b6}
-.btn{border:1px solid #e5b46b!important;border-radius:5px!important;background:linear-gradient(145deg,#4c2d18,#160c06)!important;box-shadow:0 5px 14px #0008,inset 0 1px #fff2!important;transition:transform .12s,filter .12s}
-.btn:active{transform:scale(.94);filter:brightness(1.2)}
-@keyframes shopIn{from{opacity:0;transform:translate(-50%,-47%) scale(.97)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
-@media(max-width:420px){#mc{padding:25px 18px}#mc .tg{margin-bottom:18px}.menu-actions{gap:9px}#mc .menu-actions button{min-height:46px;font-size:14px}#shopPanel{padding:15px}.shopItem{gap:7px}.shopItem small{font-size:10px}#mpPanel{padding:14px}}
-@media(prefers-reduced-motion:reduce){#mc h1,#mc .tg,#shopPanel{animation:none!important}*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
-
-/* Responsive button and HUD layout audit */
-*,*::before,*::after{box-sizing:border-box}
-button,.btn,.ib{max-width:100%;-webkit-tap-highlight-color:transparent}
-button{touch-action:manipulation}
-#mc{
-  width:min(440px,calc(100vw - 28px));
-  max-height:calc(100vh - 24px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));
-  max-height:calc(100dvh - 24px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));
-  margin:12px auto;
-  padding:clamp(18px,4vh,32px) clamp(14px,4vw,28px);
-  gap:clamp(12px,3vh,24px);
-  overflow-y:auto;
-  overflow-x:hidden;
-  overscroll-behavior:contain;
-}
-#mc>div{width:100%;min-width:0}
-#mc h1{overflow-wrap:anywhere}
-#mc .tg{max-width:100%;overflow-wrap:anywhere}
-.menu-actions{width:100%;min-width:0;gap:10px}
-#mc .menu-actions button{width:100%;min-width:0;min-height:48px;margin:0;padding:11px 12px;white-space:normal;overflow-wrap:anywhere}
-#pz{padding:16px;gap:10px;overflow:auto}
-#pz button{width:min(100%,300px);min-height:44px;margin:0;padding:10px 14px;white-space:normal}
-.pn{width:min(380px,calc(100vw - 24px));max-width:100%;max-height:calc(100dvh - 24px);overflow-x:hidden}
-.pn label{min-width:0;flex-wrap:wrap}
-.pn label input{flex:1 1 120px;min-width:0;max-width:100%}
-#mpPanel{left:max(10px,env(safe-area-inset-left,0px));right:max(10px,env(safe-area-inset-right,0px));width:auto;max-width:420px;max-height:calc(100dvh - 82px - env(safe-area-inset-top,0px));overscroll-behavior:contain}
-#mpPanel .mpr{display:flex;align-items:stretch;gap:8px}
-#mpPanel .mpr button{flex:1 1 90px;min-width:0;min-height:42px;white-space:normal;overflow-wrap:anywhere}
-#mpPanel input{display:block;box-sizing:border-box;max-width:100%}
-#shopPanel{width:min(340px,calc(100vw - 24px));max-height:calc(100dvh - 24px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));padding:clamp(12px,4vw,20px);overflow-x:hidden;overscroll-behavior:contain}
-.shopItem{min-width:0;flex-wrap:wrap;align-items:center}
-.shopItem>div{flex:1 1 130px;min-width:0;overflow-wrap:anywhere}
-#shopPanel button{min-height:40px;max-width:100%;white-space:normal;overflow-wrap:anywhere}
-#shopClose{width:100%}
-#shopToggle{right:calc(150px + env(safe-area-inset-right,0px))}
-#pa{right:calc(12px + env(safe-area-inset-right,0px))}
-#fs{right:calc(58px + env(safe-area-inset-right,0px))}
-#mu{right:calc(104px + env(safe-area-inset-right,0px))}
-#rc{right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));grid-template-columns:var(--b) var(--b) calc(var(--b)*1.35);gap:clamp(6px,1.8vw,10px);max-width:calc(100vw - 20px)}
-#bf{width:calc(var(--b)*1.35);height:calc(var(--b)*1.35)}
-#cashHud{left:calc(12px + env(safe-area-inset-left,0px));max-width:calc(100vw - 24px);overflow-wrap:anywhere}
-@media(max-width:600px){
-  #hp{top:calc(8px + env(safe-area-inset-top,0px));left:calc(8px + env(safe-area-inset-left,0px));padding:6px 8px;font-size:12px}
-  #st{top:calc(8px + env(safe-area-inset-top,0px));right:calc(8px + env(safe-area-inset-right,0px));padding:6px 8px;font-size:12px;max-width:44vw;overflow-wrap:anywhere}
-  .bar{width:clamp(64px,24vw,110px)}
-  #mm{left:calc(12px + env(safe-area-inset-left,0px));top:auto;bottom:calc(178px + env(safe-area-inset-bottom,0px));width:clamp(76px,23vw,96px);height:auto;aspect-ratio:1}
-  #ob{top:calc(64px + env(safe-area-inset-top,0px));left:calc(10px + env(safe-area-inset-left,0px));right:calc(10px + env(safe-area-inset-right,0px));width:auto;max-height:2.7em;overflow:hidden;padding:5px 8px;border:1px solid #dca45e55;border-radius:4px;background:#100905b8;font-size:11px;line-height:1.35;text-align:center}
-  #cashHud{top:calc(10px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100vw - 190px);font-size:11px;padding:5px 7px;white-space:normal}
-  #shopToggle{right:calc(150px + env(safe-area-inset-right,0px))}
-  #rc{grid-template-columns:var(--b) var(--b) calc(var(--b)*1.25);gap:clamp(5px,1.5vw,8px)}
-  #bf{width:calc(var(--b)*1.25);height:calc(var(--b)*1.25)}
-  #pr{bottom:calc(166px + env(safe-area-inset-bottom,0px));padding-inline:12px}
-}
-@media(max-width:380px){
-  :root{--b:clamp(42px,11.5vmin,50px)}
-  #pa,#fs,#mu,#shopToggle{width:36px;height:36px}
-  #pa{right:calc(8px + env(safe-area-inset-right,0px))}
-  #fs{right:calc(50px + env(safe-area-inset-right,0px))}
-  #mu{right:calc(92px + env(safe-area-inset-right,0px))}
-  #shopToggle{right:calc(134px + env(safe-area-inset-right,0px))}
-  #hp{max-width:43vw}
-  #st{max-width:43vw}
-  #mpToggle{left:calc(8px + env(safe-area-inset-left,0px));width:40px;height:40px}
-}
-@media(max-height:500px) and (orientation:landscape){
-  #mc{width:min(440px,calc(100vw - 24px));max-height:calc(100dvh - 16px);margin:8px auto;padding:12px 18px;gap:10px}
-  #mc h1{font-size:clamp(28px,6vh,42px);margin-bottom:4px}
-  #mc .tg{margin-bottom:6px;font-size:11px}
-  #mc .menu-actions{gap:6px}
-  #mc .menu-actions button{min-height:38px;padding:7px 10px}
-  #pz{justify-content:flex-start}
-}
-@media(pointer:fine){
-  #shopPanel,#mpPanel{max-width:min(420px,calc(100vw - 24px))}
-}
-
-
-/* Text-only western menu buttons */
-#mc .menu-actions{display:flex;flex-direction:column;align-items:center;gap:3px;margin-top:12px}
-#mc .menu-actions button{width:auto;min-width:190px;max-width:78vw;margin:0;padding:11px 22px;border:0;border-radius:0;background:transparent;box-shadow:none;color:var(--fg);text-shadow:0 2px 8px #000,0 0 14px #d98b3a35}
-#mc .menu-actions button:hover,#mc .menu-actions button:focus-visible{color:#ffd28b;background:transparent;border:0;box-shadow:none;outline:none;text-shadow:0 0 14px #e9a24b99}
-#mc .menu-actions button:active{transform:scale(.97);background:transparent;box-shadow:none}
-
-/* Prevent mobile gameplay control overlap */
-@media (pointer:coarse) and (max-width:420px){
-  :root{--b:clamp(38px,10vw,44px)}
-  #rc{right:calc(8px + env(safe-area-inset-right,0px));bottom:calc(8px + env(safe-area-inset-bottom,0px));grid-template-columns:var(--b) var(--b) calc(var(--b)*1.35);grid-template-rows:var(--b) var(--b);gap:6px}
-  #bf{width:calc(var(--b)*1.35);height:calc(var(--b)*1.35)}
-  #jb{left:calc(10px + env(safe-area-inset-left,0px));bottom:calc(10px + env(safe-area-inset-bottom,0px));width:94px;height:94px}
-  #jk{left:22px;top:22px;width:44px;height:44px}
-  #cashHud{top:170px;left:10px;max-width:calc(100vw - 24px);box-sizing:border-box}
-}
-@media (pointer:coarse) and (max-height:500px){
-  :root{--b:clamp(34px,8vh,42px)}
-  #rc{gap:5px;bottom:calc(6px + env(safe-area-inset-bottom,0px))}
-  #jb{width:78px;height:78px;bottom:calc(8px + env(safe-area-inset-bottom,0px))}
-  #jk{left:17px;top:17px;width:40px;height:40px}
-  #ib,#pa,#mu,#fs,#shopToggle{top:calc(env(safe-area-inset-top,0px) + 8px)}
-  #cashHud{top:154px}
-}
 </style></head><body>
 <div id="dm"></div><canvas id="mm" width="96" height="96"></canvas>
 <div class="h" id="hp">❤ <span id="hv">100</span><i class="bar"><b id="hb" style="background:#c0392b;width:100%"></b></i><i class="bar" id="sbw"><b id="sb" style="background:#d9a63a;width:100%"></b></i></div>
-<div id="cashHud">💰 پول: <span id="cashValue">0</span>$</div><div class="h" id="st"></div><div class="h" id="ob"></div><div class="h" id="cx"></div><div class="h" id="pr"></div><div class="h" id="tt"></div>
+<div class="h" id="st"></div><div class="h" id="ob"></div><div class="h" id="cx"></div><div class="h" id="pr"></div><div class="h" id="tt"></div>
 <div class="ib" id="pa" aria-label="مکث"><svg viewBox="0 0 24 24"><path d="M9 5v14M15 5v14" stroke-width="3"/></svg></div><div class="ib" id="mu" aria-label="صدا"><svg viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6l-5 4H4Z"/><path d="M16 9a5 5 0 0 1 0 6M18.5 6.5a9 9 0 0 1 0 11"/></svg></div><div class="ib" id="fs"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M3 8V3h5M12 3h5v5M17 12v5h-5M8 17H3v-5"/></svg></div><div id="jb"><div id="jk"></div></div>
 <div id="rc">
 <div class="btn" id="bh" aria-label="صدا زدن اسب" title="صدا زدن اسب"><svg viewBox="0 0 24 24"><path d="M4 8h5l7-4v16l-7-4H4z"/><path d="M8 8v8M18 9l3-2M18 15l3 2"/><path d="M3 5l2 2M3 19l2-2"/></svg></div>
@@ -243,25 +60,8 @@ button{touch-action:manipulation}
 </div>
 <div id="sp"></div>
 <div id="pz"><h2>⏸ توقف</h2><button id="pre">ادامه بازی</button><button id="pso">تنظیمات</button><button id="pmn">منوی اصلی</button></div>
-<div id="ov"><canvas id="bg"></canvas><div id="cinema"><div class="letter top"></div><div class="letter bottom"></div><div class="stamp">THE WILD WEST</div></div><div id="mc"><div><h1>غرب وحشی</h1><div class="tg">شهر بزرگ · اسب‌های وحشی · اردوگاه راهزن‌ها</div></div><div class="menu-actions"><button id="go">حالت آفلاین</button><button id="goOnline">حالت آنلاین</button><button id="so">تنظیمات</button></div></div>
-</div><section id="shopPanel" aria-label="فروشگاه غرب وحشی">
-<h3>🏜️ فروشگاه غرب وحشی</h3><div style="text-align:center;font-size:12px;color:#c9b08b">تجهیزاتت را با پول مأموریت‌ها بخر</div>
-<div id="shopBalance">💰 موجودی: <span id="shopCash">0</span>$</div>
-<div class="shopItem"><div>🔫 بسته مهمات<small>۳۰ تیر ذخیره اضافه می‌شود</small></div><button id="buyAmmo">۲۰$ خرید</button></div>
-<div class="shopItem"><div>❤️ درمان<small>جان کامل می‌شود</small></div><button id="buyHeal">۳۰$ خرید</button></div>
-<div class="shopItem"><div>🐎 انرژی اسب‌سواری<small>استقامتت کامل می‌شود</small></div><button id="buyStamina">۱۵$ خرید</button></div>
-<button id="shopClose">بستن فروشگاه</button></section><div id="dustFX"></div>
-<button id="shopToggle" class="ib" aria-label="فروشگاه" title="فروشگاه">💰</button><button id="mpToggle" aria-label="بازی آنلاین" title="بازی آنلاین">🌐</button>
-<section id="mpPanel" aria-label="چندنفره آنلاین">
-<h3>🤠 غرب وحشی آنلاین</h3>
-<input id="mpName" maxlength="18" placeholder="نام کابویی">
-<input id="mpRoom" maxlength="28" value="شهر-غربی" placeholder="نام اتاق">
-<div class="mpr"><button id="mpJoin">ورود به اتاق</button><button id="mpLeave" disabled>خروج</button><button id="mpMode">حالت: همکاری</button></div>
-<div id="mpStatus">برای دیدن دوستانت، وارد یک اتاق شوید.</div>
-<div><b>بازیکنان حاضر</b><div id="mpPlayers">فقط خودت</div></div>
-
-<div style="font-size:11px;line-height:1.6;color:#bda785;margin-top:8px">همکاری: کنار هم بازی کنید. PvP آزمایشی: به سمت بازیکن دیگر نشانه بگیرید و شلیک کنید. این نسخه آزمایشی است و اعتبارسنجی ضدتقلب ندارد.</div>
-</section>
+<div id="ov"><canvas id="bg"></canvas><div id="cinema"><div class="letter top"></div><div class="letter bottom"></div><div class="stamp">THE WILD WEST</div></div><div id="mc"><div><h1>غرب وحشی</h1><div class="tg">شهر بزرگ · اسب‌های وحشی · اردوگاه راهزن‌ها</div></div><div><button id="go">شروع بازی</button><br><button id="so">تنظیمات</button></div></div>
+</div><div id="dustFX"></div>
 <div id="set"><div class="pn"><h2 style="margin:0;color:var(--ac)">تنظیمات</h2>
 <label>موسیقی<input id="s1" type="range" min="0" max="1" step=".05"></label>
 <label>صدای افکت‌ها<input id="s2" type="range" min="0" max="1.5" step=".05"></label>
@@ -269,9 +69,7 @@ button{touch-action:manipulation}
 <button id="s4">گرافیک: بالا</button>
 <button id="sb2">بازگشت</button>
 <small>کامپیوتر: WASD حرکت · ماوس نگاه · نگه‌داشتن کلیک = شلیک خودکار · Shift دویدن/تاخت · Space پرش · E سوار/پیاده شدن اسب · H صدا زدن اسبت · R پر کردن<br>موبایل: جوی‌استیک چپ (تا آخر بکشید = تاخت)، کشیدن سمت راست برای نگاه، دکمهٔ 🔫 را نگه دارید = تیر خودکار<br>🔊 صدای رسانهٔ گوشی را زیاد کنید (حالت سایلنت آیفون را خاموش کنید)</small></div></div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 let S={mus:1,sfx:1,sens:1,gfx:1};try{Object.assign(S,JSON.parse(localStorage.getItem('ww')||'{}'))}catch(e){}
 const $=id=>document.getElementById(id),R=Math.random,cl=(v,a,b)=>Math.min(b,Math.max(a,v)),V3=(x,y,z)=>new THREE.Vector3(x,y,z),PI=Math.PI;
@@ -281,10 +79,10 @@ const rp=()=>{let x,z;do{x=(R()-.5)*570;z=(R()-.5)*570}while(Math.hypot(x*2.4,z)
 const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(70,innerWidth/innerHeight,.1,900);
 // lightweight hoof-dust particles, reused to keep mobile performance smooth
 const hoofDust=[];const dustGeo=new THREE.SphereGeometry(.12,5,4);for(let i=0;i<24;i++){const mat=new THREE.MeshBasicMaterial({color:0xc58b4b,transparent:true,opacity:0,depthWrite:false});const m=new THREE.Mesh(dustGeo,mat);m.visible=false;sc.add(m);hoofDust.push({m,mat,life:0,max:0})}let dustClock=0;
-const mobilePerf=matchMedia('(max-width: 700px), (pointer: coarse)').matches,pixelRatio=()=>S.gfx?Math.min(devicePixelRatio,mobilePerf?1.25:1.75):1;const rd=new THREE.WebGLRenderer({antialias:!mobilePerf,powerPreference:'high-performance'});rd.setPixelRatio(pixelRatio());rd.setSize(innerWidth,innerHeight);rd.shadowMap.enabled=!!S.gfx;rd.shadowMap.type=mobilePerf?THREE.PCFShadowMap:THREE.PCFSoftShadowMap;rd.toneMapping=THREE.ACESFilmicToneMapping;rd.toneMappingExposure=1.3;rd.domElement.className='g';document.body.prepend(rd.domElement);
+const rd=new THREE.WebGLRenderer({antialias:true});rd.setPixelRatio(S.gfx?Math.min(devicePixelRatio,2):1);rd.setSize(innerWidth,innerHeight);rd.shadowMap.enabled=true;rd.shadowMap.type=THREE.PCFSoftShadowMap;rd.toneMapping=THREE.ACESFilmicToneMapping;rd.toneMappingExposure=1.3;rd.domElement.className='g';document.body.prepend(rd.domElement);
 sc.fog=new THREE.Fog(0xcfe0ea,70,480);
 const hemi=new THREE.HemisphereLight(0xbfd8ff,0x8a6a45,.6),sun=new THREE.DirectionalLight(0xfff0cc,1.5),moon=new THREE.DirectionalLight(0x6688cc,0),flash=new THREE.PointLight(0xffaa44,0,25);
-sun.castShadow=!!S.gfx;sun.shadow.mapSize.set(mobilePerf?(S.gfx?1024:512):(S.gfx?1536:512),mobilePerf?(S.gfx?1024:512):(S.gfx?1536:512));sun.shadow.bias=-.0006;Object.assign(sun.shadow.camera,{left:-70,right:70,top:70,bottom:-70,far:450});moon.position.set(-50,80,-30);sc.add(hemi,sun,sun.target,moon,flash);
+sun.castShadow=!!S.gfx;sun.shadow.mapSize.set(2048,2048);sun.shadow.bias=-.0006;Object.assign(sun.shadow.camera,{left:-70,right:70,top:70,bottom:-70,far:450});moon.position.set(-50,80,-30);sc.add(hemi,sun,sun.target,moon,flash);
 // sky dome, sun, stars, clouds
 const skyU={top:{value:new THREE.Color()},hor:{value:new THREE.Color()}};
 const dome=new THREE.Mesh(new THREE.SphereGeometry(600,24,12),new THREE.ShaderMaterial({uniforms:skyU,side:THREE.BackSide,depthWrite:false,fog:false,vertexShader:'varying float h;void main(){h=normalize(position).y;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'uniform vec3 top,hor;varying float h;\n\nvoid main(){gl_FragColor=vec4(mix(hor,top,pow(clamp(h,0.,1.),.5)),1.);\n#include <tonemapping_fragment>\n}'}));sc.add(dome);
@@ -346,89 +144,7 @@ mkHorse(7,28,hcol[0],-.6,0);[[-1,-72],[1,-44],[-1,-18],[1,16],[-1,42],[1,70]].fo
 for(let i=0;i<7;i++){const[x,z]=rp();mkHorse(x,z,hcol[i%7],R()*6,1)}
 const pm=arm(man(0x7a2a22,0x3b2a1a));sc.add(pm);
 const npc=[];for(let i=0;i<9;i++){const m=man([0x556b8d,0x8d5555,0x5d7a52,0x777777][i%4],[0x222222,0x6b5a3a][i%2],0x3a3a4a),n={m,x:(i%2?1:-1)*(6+R()*8),z:-90+R()*180,dir:i%3?1:-1,v:1.3+R()};sc.add(m);npc.push(n)}
-const P={x:2,z:36,jy:0,vy:0,vx:0,vz:0,face:PI,yaw:PI,pitch:.35,y:0,hp:100,ammo:30,res:120,cash:Math.max(0,Number(localStorage.getItem('ww_cash'))||0),m:0,h:null,cd:0,rl:0,dead:0,ph:0,q:0,st:100,tired:0,hurtT:0,aim:0,alert:0};
-
-const MP_URL='https://pwwicgyrycaexjnnhseb.supabase.co';
-const MP_KEY='sb_publishable_CiQbGJJx_WGbeGTPssoWYQ_kutyUJh9';
-const mpId=(crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2));
-let mpClient=null,mpChannel=null,mpJoined=false,mpRoom='',mpName='',mpLast=0,mpMode='coop',mpRemote=new Map(),mpAvatars=new Map(),mpHorses=new Map();
-P.rideWith=null;
-function mpStatus(t){$('mpStatus').textContent=t}
-function mpRenderPlayers(){const a=[mpName||'تو',...Array.from(mpRemote.values()).map(p=>p.name||'کابویی')];$('mpPlayers').textContent=a.join(' · ')}
-function mpSend(event,payload){if(mpJoined&&mpChannel)mpChannel.send({type:'broadcast',event,payload}).catch(()=>{})}
-function mpNameTag(name){
- const cv=document.createElement('canvas');cv.width=512;cv.height=96;const cx=cv.getContext('2d');
- const draw=n=>{cx.clearRect(0,0,512,96);cx.fillStyle='rgba(16,9,4,.82)';cx.beginPath();cx.roundRect(8,8,496,80,18);cx.fill();cx.strokeStyle='rgba(229,180,107,.9)';cx.lineWidth=3;cx.beginPath();cx.roundRect(9,9,494,78,17);cx.stroke();cx.font='bold 35px Vazirmatn, Tahoma, sans-serif';cx.textAlign='center';cx.textBaseline='middle';cx.fillStyle='#fff0cc';cx.shadowColor='#000';cx.shadowBlur=5;cx.fillText(String(n||'کابویی').slice(0,18),256,48,460)};
- draw(name);const tex=new THREE.CanvasTexture(cv);tex.minFilter=THREE.LinearFilter;
- const tag=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false,depthWrite:false}));
- tag.scale.set(2.05,.385,1);tag.position.set(0,2.55,0);tag.renderOrder=20;tag.userData.drawName=draw;return tag
-}
-function mpOutfit(id){
- const palettes=[[0x8f3428,0x33251a,0x342d2b],[0x315c78,0x25201b,0x3a3b4c],[0x65713c,0x3b2b1c,0x292d28],[0xb17a32,0x3a2117,0x51402b],[0x673c73,0x211c1a,0x34313c],[0x9b3f4b,0x29221b,0x4b3530],[0x3d7770,0x282019,0x393c3a],[0x8a8172,0x49311e,0x24272d]];
- let h=0;for(const ch of String(id))h=(h*31+ch.charCodeAt(0))>>>0;return palettes[h%palettes.length]
-}
-function mpApplyOutfit(model,id){
- const outfit=mpOutfit(id);
- model.traverse(o=>{if(!o.isMesh||!o.material)return;let color=null;
-  if(Math.abs(((o.parent&&o.parent.position.y)||0)-.9)<.001)color=outfit[2];
-  if(o.parent&&Math.abs(o.parent.position.y-1.65)<.001)color=outfit[0];
-  if(o.parent===model&&Math.abs(o.position.y-1.3)<.001)color=outfit[0];
-  if(o.parent===model&&(Math.abs(o.position.y-2.1)<.001||Math.abs(o.position.y-2.24)<.001))color=outfit[1];
-  if(color!==null){o.material=o.material.clone();o.material.color.setHex(color)}
- })
-}
-function mpRemoteRemove(pid){mpRemote.delete(pid);if(mpAvatars.has(pid)){sc.remove(mpAvatars.get(pid));mpAvatars.delete(pid)}if(mpHorses.has(pid)){sc.remove(mpHorses.get(pid));mpHorses.delete(pid)}mpRenderPlayers()}
-function mpRemoteState(p){
- if(!p||!p.id||p.id===mpId)return;
- mpRemote.set(p.id,p);
- if(!mpAvatars.has(p.id)){const outfit=mpOutfit(p.id),a=man(outfit[0],outfit[1],outfit[2]);a.userData.mpTag=mpNameTag(p.name);a.add(a.userData.mpTag);sc.add(a);mpAvatars.set(p.id,a)}
- const a=mpAvatars.get(p.id);if(a.userData.mpTag&&a.userData.mpTag.userData.drawName){a.userData.mpTag.userData.drawName(p.name||'کابویی');a.userData.mpTag.material.map.needsUpdate=true}
- a.position.set(Number(p.x)||0,(Number(p.y)||0)+.05,Number(p.z)||0);a.rotation.set(0,Number(p.face)||0,0);
- if(p.rideWith){const carrier=p.rideWith===mpId?{x:P.x,y:P.y,z:P.z,face:P.face,m:P.m}:mpRemote.get(p.rideWith);if(carrier){a.position.set(carrier.x-Math.sin(carrier.face||0)*.7,carrier.y+.88,carrier.z-Math.cos(carrier.face||0)*.7);a.rotation.y=carrier.face||0}if(mpHorses.has(p.id))mpHorses.get(p.id).visible=false}
- else if(p.m){if(!mpHorses.has(p.id)){const h=horse(0x9b7547);sc.add(h);mpHorses.set(p.id,h)}const h=mpHorses.get(p.id);h.visible=true;h.position.set(Number(p.x)||0,Number(p.y)||0,Number(p.z)||0);h.rotation.y=Number(p.face)||0;a.position.y+=1.1}else if(mpHorses.has(p.id))mpHorses.get(p.id).visible=false;
- mpRenderPlayers()
-}
-async function mpJoin(){
- if(mpJoined)return;
- mpName=$('mpName').value.trim().slice(0,18)||'کابویی';mpRoom=$('mpRoom').value.trim().replace(/[^\p{L}\p{N}_-]/gu,'-').slice(0,28)||'شهر-غربی';
- $('mpJoin').disabled=true;mpStatus('در حال اتصال به اتاق…');
- try{
-  if(!window.supabase)throw new Error('کتابخانه اتصال آنلاین بارگذاری نشد؛ اینترنت را بررسی کن.');
-  mpClient=window.supabase.createClient(MP_URL,MP_KEY);
-  mpChannel=mpClient.channel('gharb-live:'+mpRoom,{config:{presence:{key:mpId},broadcast:{self:false}}});
-  mpChannel.on('presence',{event:'sync'},()=>{for(const [key,items] of Object.entries(mpChannel.presenceState())){for(const p of items)if(p.id!==mpId)mpRemoteState(p)}});
-  mpChannel.on('presence',{event:'join'},({newPresences})=>newPresences.forEach(mpRemoteState));
-  mpChannel.on('presence',{event:'leave'},({leftPresences,key})=>leftPresences.forEach(p=>mpRemoteRemove(p.id||key)));
-  mpChannel.on('broadcast',{event:'state'},({payload})=>mpRemoteState(payload));
-  mpChannel.on('broadcast',{event:'shot'},({payload})=>{
-   if(!payload||payload.id===mpId||P.dead||mpMode!=='pvp')return;
-   const dx=P.x-payload.x,dz=P.z-payload.z,dist=Math.hypot(dx,dz),ang=Math.atan2(dx,dz);
-   if(dist<75&&Math.abs(ad(ang,payload.yaw||0))<.18){P.hp=Math.max(0,P.hp-15);$('hv').textContent=Math.ceil(P.hp);$('hb').style.width=P.hp+'%';msg('🔫 به تو شلیک شد! (PvP آزمایشی)',1300);if(P.hp<=0){P.dead=1;msg('در مبارزه شکست خوردی؛ بازی را دوباره شروع کن.',3000)}}
-  });
-  mpChannel.on('broadcast',{event:'hit'},({payload})=>{if(payload&&payload.id!==mpId)msg((payload.name||'بازیکن')+' به یک کابویی شلیک کرد',1000)});
-  mpChannel.on('broadcast',{event:'mode'},({payload})=>{if(payload&&payload.mode){mpMode=payload.mode;$('mpMode').textContent='حالت: '+(mpMode==='pvp'?'مبارزه PvP':'همکاری');mpStatus('اتاق آنلاین شد • حالت '+(mpMode==='pvp'?'مبارزه PvP':'همکاری'))}});
-  await new Promise((resolve,reject)=>{let done=false;const timer=setTimeout(()=>{if(!done){done=true;reject(new Error('زمان اتصال تمام شد. Realtime پروژه را بررسی کن.'))}},12000);
-   mpChannel.subscribe(async state=>{if(state==='SUBSCRIBED'&&!done){done=true;clearTimeout(timer);mpJoined=true;$('mpLeave').disabled=false;$('mpJoin').disabled=true;mpStatus('متصل شدی! اتاق: '+mpRoom);await mpChannel.track({id:mpId,name:mpName,x:P.x,y:P.y,z:P.z,face:P.face,m:P.m,joinedAt:Date.now()});mpApplyOutfit(pm,mpId);if(!pm.userData.mpTag){pm.userData.mpTag=mpNameTag(mpName);pm.add(pm.userData.mpTag)}else{pm.userData.mpTag.userData.drawName(mpName);pm.userData.mpTag.material.map.needsUpdate=true;pm.userData.mpTag.visible=true}mpRenderPlayers();resolve()}else if((state==='CHANNEL_ERROR'||state==='TIMED_OUT')&&!done){done=true;clearTimeout(timer);reject(new Error('اتصال آنلاین ناموفق بود؛ تنظیمات Realtime را بررسی کن.'))}})
-  });
- }catch(e){console.error(e);mpStatus(e.message||'اتصال آنلاین برقرار نشد.');$('mpJoin').disabled=false}
-}
-async function mpLeave(){
- const old=mpChannel;mpJoined=false;mpChannel=null;if(pm.userData.mpTag)pm.userData.mpTag.visible=false;mpRemote.clear();
- for(const id of [...mpAvatars.keys()])mpRemoteRemove(id);
- for(const h of mpHorses.values())sc.remove(h);mpHorses.clear();
- if(old&&mpClient){try{await mpClient.removeChannel(old)}catch(e){}}
- $('mpJoin').disabled=false;$('mpLeave').disabled=true;mpStatus('از اتاق خارج شدی.');mpRenderPlayers()
-}
-function mpTick(){
- if(!mpJoined||!mpChannel)return;
- const now=performance.now();if(now-mpLast<100)return;mpLast=now;
- const state={id:mpId,name:mpName,x:P.x,y:P.y,z:P.z,face:P.face,m:P.m,rideWith:P.rideWith||null,health:P.hp};
- mpSend('state',state);
-}
-$('mpToggle').onclick=()=>$('mpPanel').classList.toggle('open');
-$('mpJoin').onclick=mpJoin;$('mpLeave').onclick=mpLeave;$('mpMode').onclick=()=>{mpMode=mpMode==='coop'?'pvp':'coop';$('mpMode').textContent='حالت: '+(mpMode==='pvp'?'مبارزه PvP':'همکاری');mpStatus('حالت اتاق: '+(mpMode==='pvp'?'مبارزه PvP':'همکاری'));mpSend('mode',{mode:mpMode})};
-addEventListener('beforeunload',()=>{if(mpClient&&mpChannel)mpClient.removeChannel(mpChannel)});
-
+const P={x:2,z:36,jy:0,vy:0,vx:0,vz:0,face:PI,yaw:PI,pitch:.35,y:0,hp:100,ammo:30,res:120,cash:0,m:0,h:null,cd:0,rl:0,dead:0,ph:0,q:0,st:100,tired:0,hurtT:0,aim:0,alert:0};
 // camps, bandits, animals
 const en=[],camps=[],an=[];
 for(let i=0;i<8;i++){const a=i*.8+.4,r=175+(i%4)*26,cx=Math.cos(a)*r,cz=Math.sin(a)*r,cy=H(cx,cz),boss=i==7,c={x:cx,z:cz,left:boss?6:5,done:0};
@@ -474,22 +190,14 @@ addEventListener('touchstart',e=>{for(const t of e.changedTouches){if(t.target.c
 addEventListener('touchmove',e=>{for(const t of e.changedTouches){if(t.identifier==joy.id){let x=(t.clientX-joy.ox)/60,y=(t.clientY-joy.oy)/60,l=Math.hypot(x,y);if(l>1){x/=l;y/=l}joy.x=x;joy.y=y;$('jk').style.transform='translate('+x*35+'px,'+y*35+'px)'}else if(t.identifier==lk.id){P.yaw-=(t.clientX-lk.x)*.006*S.sens;P.pitch=cl(P.pitch+(t.clientY-lk.y)*.004*S.sens,-.35,1.1);lk.x=t.clientX;lk.y=t.clientY}}},{passive:true});
 addEventListener('touchend',e=>{if(A&&A.state!='running')A.resume();for(const t of e.changedTouches){if(t.identifier==joy.id){joy={x:0,y:0,id:null,ox:0,oy:0};const b=$('jb').style;b.left=b.top=b.bottom='';$('jk').style.transform=''}if(t.identifier==lk.id)lk.id=null}});
 $('bf').onpointerdown=()=>{fh=1;shoot()};$('br').onpointerdown=reload;$('bm').onpointerdown=mount;$('bh').onpointerdown=call;$('bj').onpointerdown=jump;
-function syncCash(){const n=Math.max(0,Math.floor(P.cash||0));if($('cashValue'))$('cashValue').textContent=n;if($('shopCash'))$('shopCash').textContent=n;try{localStorage.setItem('ww_cash',String(n))}catch(e){}}
-function buyItem(cost,apply,success){if(!started){msg('اول بازی را شروع کن',1500);return}if(P.cash<cost){msg('پولت کافی نیست؛ راهزن‌ها را شکست بده و اردوگاه پاک کن!',2500);return}if(!apply()){msg('فعلاً به این وسیله نیاز نداری',1800);return}P.cash-=cost;syncCash();msg(success,2000)}
-$('shopToggle').onclick=()=>{$('shopPanel').classList.add('open');syncCash()};
-$('shopClose').onclick=()=> $('shopPanel').classList.remove('open');
-$('buyAmmo').onclick=()=>buyItem(20,()=>{if(P.res>=240)return false;P.res=Math.min(240,P.res+30);return true},'۳۰ تیر ذخیره خریدی!');
-$('buyHeal').onclick=()=>buyItem(30,()=>{if(P.hp>=100)return false;P.hp=100;$('hv').textContent='100';$('hb').style.width='100%';return true},'جان تو کامل شد!');
-$('buyStamina').onclick=()=>buyItem(15,()=>{if(P.st>=100)return false;P.st=100;$('sb').style.width='100%';return true},'استقامتت کامل شد!');
-syncCash();
 let tmr;function msg(t,ms=2500){const e=$('tt');e.textContent=t;e.style.opacity=1;clearTimeout(tmr);tmr=setTimeout(()=>e.style.opacity=0,ms)}
 function jump(){if(started&&!P.dead&&P.jy<=.05)P.vy=P.m?9.5:7.5}
 function call(){if(!started||P.m)return;const h=horses[0];h.call=1;h.wild=0;tone(1800,2500,.5,.3);tone(2200,2800,.4,.3,'sine',1,A.currentTime+.5);msg('🐎 اسبت دارد می‌آید…',1800)}
 function nearH(){let b=null,bd=5.5;for(const h of horses){const d=Math.hypot(P.x-h.x,P.z-h.z);if(d<bd){bd=d;b=h}}return b}
-function mount(){if(!started||P.dead)return;if(P.rideWith){P.rideWith=null;P.vx=P.vz=0;msg('از اسب مشترک پیاده شدی',1400);return}if(mpJoined&&!P.m){let carrier=null,bd=4.5;for(const p of mpRemote.values()){const d=Math.hypot(P.x-p.x,P.z-p.z);if(p.m&&!p.rideWith&&d<bd){carrier=p;bd=d}}if(carrier){P.rideWith=carrier.id;P.m=0;P.h=null;P.vx=P.vz=0;msg('🐎 سوار اسب بازیکن شدی! برای پیاده شدن دوباره دکمه سوار شدن را بزن',2600);return}}if(P.m){P.h.x=P.x+2.5;P.h.z=P.z;P.m=0;P.h=null;return}const b=nearH();if(b){P.m=1;P.h=b;b.call=0;b.wild=0;tone(750,320,.6,.5,'sawtooth');nz(.3,'bandpass',900,400,.5);msg('🐎 سوار شدی · Shift = تاخت · Space = پرش',2200)}}
+function mount(){if(!started||P.dead)return;if(P.m){P.h.x=P.x+2.5;P.h.z=P.z;P.m=0;P.h=null;return}const b=nearH();if(b){P.m=1;P.h=b;b.call=0;b.wild=0;tone(750,320,.6,.5,'sawtooth');nz(.3,'bandpass',900,400,.5);msg('🐎 سوار شدی · Shift = تاخت · Space = پرش',2200)}}
 function reload(){if(!started||P.rl>0||P.ammo>=30||P.res<=0)return;P.rl=1.5;nz(.05,'highpass',3000,5000,.5);setTimeout(()=>nz(.05,'highpass',3000,5000,.5),500);setTimeout(()=>nz(.06,'highpass',2000,4000,.6),1100);setTimeout(()=>nz(.09,'highpass',1500,3000,.7),1450)}
 function hurt(n){P.hp-=n;P.hurtT=8;$('dm').style.opacity=.7;nz(.2,'lowpass',400,100,.9);tone(120,50,.25,.7);if(P.hp<=0&&!P.dead){P.dead=1;msg('کشته شدی…',2800);setTimeout(()=>{P.dead=0;P.hp=100;P.x=2;P.z=36;P.m=0;P.h=null;P.cash=Math.floor(P.cash*.8);P.ammo=30},3000)}}
-function shoot(){if(!started||P.dead||P.rl>0||P.cd>0)return;if(P.ammo<=0){reload();return}P.ammo--;if(mpJoined)mpSend('shot',{id:mpId,name:mpName,x:P.x,y:P.y+1.5,z:P.z,yaw:P.yaw,pitch:P.pitch});if(P.ammo<=0)setTimeout(reload,200);P.cd=.11;P.aim=.6;gun();P.pitch=cl(P.pitch-.012,-.35,1.1);flash.intensity=4;pm.userData.gn.userData.mf.visible=true;P.mf=.05;
+function shoot(){if(!started||P.dead||P.rl>0||P.cd>0)return;if(P.ammo<=0){reload();return}P.ammo--;if(P.ammo<=0)setTimeout(reload,200);P.cd=.11;P.aim=.6;gun();P.pitch=cl(P.pitch-.012,-.35,1.1);flash.intensity=4;pm.userData.gn.userData.mf.visible=true;P.mf=.05;
 const o=cam.position,dir=new THREE.Vector3();cam.getWorldDirection(dir);const mz=pm.userData.gn.localToWorld(V3(0,.02,1));flash.position.copy(mz);let best=null,bt=1e9,hh=0;
 for(const e of[...en,...an]){if(!e.alive)continue;const c=V3(e.x,e.y+e.hc,e.z).sub(o),t=c.dot(dir);if(t<1||t>260||t>bt)continue;if(c.sub(dir.clone().multiplyScalar(t)).length()<e.rad&&!blk(P.x,P.z,e.x,e.z)){bt=t;best=e;hh=o.y+dir.y*t-e.y>e.hd}}
 tracer(mz,o.clone().addScaledVector(dir,best?bt:150),0xffdd88);
@@ -498,17 +206,17 @@ if(best.hp<=0){best.alive=0;if(best.c){P.cash+=25+(hh?15:0);P.res+=12;tone(880,8
 // update
 function update(dt){if(fh)shoot();if(P.mf>0){P.mf-=dt;if(P.mf<=0)pm.userData.gn.userData.mf.visible=false}TD=(TD+dt/300)%1;P.cd-=dt;P.hurtT-=dt;if(P.rl>0){P.rl-=dt;if(P.rl<=0){const n=Math.min(30-P.ammo,P.res);P.ammo+=n;P.res-=n}}
 flash.intensity=Math.max(0,flash.intensity-dt*60);const dm=$('dm').style;dm.opacity=Math.max(0,dm.opacity-dt*1.2);if(P.hurtT<0&&P.hp<100&&!P.dead)P.hp=Math.min(100,P.hp+dt*4);
-let f=(k.w||k.arrowup?1:0)-(k.s||k.arrowdown?1:0)-joy.y,s=(k.d?1:0)-(k.a?1:0)+joy.x,L=Math.hypot(f,s);if(P.rideWith){f=0;s=0;L=0}if(L>1){f/=L;s/=L;L=1}if(P.dead)f=s=L=0;
+let f=(k.w||k.arrowup?1:0)-(k.s||k.arrowdown?1:0)-joy.y,s=(k.d?1:0)-(k.a?1:0)+joy.x,L=Math.hypot(f,s);if(L>1){f/=L;s/=L;L=1}if(P.dead)f=s=L=0;
 const spr=(k.shift||Math.hypot(joy.x,joy.y)>.92)&&L>.1;
 if(P.m){if(spr&&!P.tired&&P.st>0)P.st-=dt*20;else P.st=Math.min(100,P.st+dt*12);if(P.st<=0)P.tired=1;if(P.st>30)P.tired=0}
 const gal=P.m&&spr&&!P.tired,mx=P.m?(gal?25:12):(spr?9:5.2),sn=Math.sin(P.yaw),cs=Math.cos(P.yaw),kx=cl(dt*(P.m?1.8:10),0,1);
 P.vx+=((-sn*f+cs*s)*mx-P.vx)*kx;P.vz+=((-cs*f-sn*s)*mx-P.vz)*kx;P.x+=P.vx*dt;P.z+=P.vz*dt;
 for(const c of colliders){const qx=cl(P.x,c.x-c.hx,c.x+c.hx),qz=cl(P.z,c.z-c.hz,c.z+c.hz),dx=P.x-qx,dz=P.z-qz,d=Math.hypot(dx,dz),r=P.m?1.1:.6;if(d<r){if(d>0){P.x=qx+dx/d*r;P.z=qz+dz/d*r}else P.x=c.x+c.hx+r}}
-solid(P,P.m?1.1:.6);P.x=cl(P.x,-285,285);P.z=cl(P.z,-285,285);if(P.rideWith){const carrier=mpRemote.get(P.rideWith);if(carrier){const face=Number(carrier.face)||0;P.x=(Number(carrier.x)||0)-Math.sin(face)*.7;P.z=(Number(carrier.z)||0)-Math.cos(face)*.7;P.y=H(P.x,P.z)+.88;P.face=face;P.yaw=face;P.vx=P.vz=0}else{P.rideWith=null;msg('بازیکن سوار اسب از اتاق خارج شد',1800)}}P.vy-=26*dt;P.jy+=P.vy*dt;if(P.jy<=0){P.jy=0;P.vy=0}P.y=H(P.x,P.z)+P.jy;
+solid(P,P.m?1.1:.6);P.x=cl(P.x,-285,285);P.z=cl(P.z,-285,285);P.vy-=26*dt;P.jy+=P.vy*dt;if(P.jy<=0){P.jy=0;P.vy=0}P.y=H(P.x,P.z)+P.jy;
 const spd=Math.hypot(P.vx,P.vz);if(spd>.8)P.face+=ad(P.face,Math.atan2(P.vx,P.vz))*cl(dt*(P.m?3.5:12),0,1);if(P.aim>0){P.aim-=dt;P.face+=ad(P.face,P.yaw+PI)*cl(dt*14,0,1)}
 P.ph+=spd*dt*(P.m?.45:1.6);const q=Math.floor(P.ph/(P.m?1.571:3.14));if(q!=P.q){P.q=q;if(P.jy<.1&&spd>1.5)P.m?hoof():stp()}
 const bob=P.m?Math.abs(Math.sin(P.ph*2))*.06*Math.min(spd/20,1):Math.abs(Math.sin(P.ph))*.04*Math.min(spd/5,1);
-pm.userData.pt=(P.pitch-.35)*.5+(P.rl>0?.7:0);pm.position.set(P.x,P.y+(P.m?.95:(P.rideWith?.88:0))+bob,P.z);pm.rotation.set(P.dead?-1.5:0,P.face,0);am(pm,P.m?0:P.ph,P.m?0:Math.min(spd/5,1.3)*.8);
+pm.userData.pt=(P.pitch-.35)*.5+(P.rl>0?.7:0);pm.position.set(P.x,P.y+(P.m?.95:0)+bob,P.z);pm.rotation.set(P.dead?-1.5:0,P.face,0);am(pm,P.m?0:P.ph,P.m?0:Math.min(spd/5,1.3)*.8);
 for(const h of horses){const r=h===P.h;if(r){h.x=P.x;h.z=P.z;h.yaw=P.face;h.sp=spd;h.ph=P.ph}else{
 if(h.call){const dx=P.x-h.x,dz=P.z-h.z,d=Math.hypot(dx,dz);if(d>4){h.x+=dx/d*14*dt;h.z+=dz/d*14*dt;h.yaw+=ad(h.yaw,Math.atan2(dx,dz))*cl(dt*6,0,1);h.sp=14}else{h.call=0;h.sp=0}}
 else if(h.wild){h.t-=dt;if(h.t<=0){h.t=5+R()*8;h.tx=h.hx+(R()-.5)*50;h.tz=h.hz+(R()-.5)*50}const dx=h.tx-h.x,dz=h.tz-h.z,d=Math.hypot(dx,dz);if(d>2&&Math.hypot(P.x-h.x,P.z-h.z)>8){h.x+=dx/d*3*dt;h.z+=dz/d*3*dt;h.yaw+=ad(h.yaw,Math.atan2(dx,dz))*cl(dt*3,0,1);h.sp=3}else h.sp=0}else h.sp=0;h.ph+=h.sp*dt*.45}
@@ -541,15 +249,13 @@ const T=(x,z,col,r)=>{const dx=x-P.x,dz=z-P.z;let a=(dx*Math.cos(P.yaw)-dz*Math.
 T(0,0,'#d9b36a',6);for(const h of horses)if(Math.hypot(h.x-P.x,h.z-P.z)<150)T(h.x,h.z,'#b9854a',2);for(const e of an)if(e.alive&&Math.hypot(e.x-P.x,e.z-P.z)<120)T(e.x,e.z,'#6c6',2);
 for(const e of en)if(e.alive&&Math.hypot(e.x-P.x,e.z-P.z)<90)T(e.x,e.z,'#f44',2.5);for(const m of camps)if(!m.done)T(m.x,m.z,'#fa3',4);
 c.fillStyle='#fff';c.beginPath();c.moveTo(48,41);c.lineTo(53,53);c.lineTo(43,53);c.fill()}
-let paused=0,fr=0,last=performance.now();function loop(now){requestAnimationFrame(loop);const dt=Math.min(.05,(now-last)/1000);last=now;if(started&&!paused){update(dt);mpTick();syncCash();sky()}if(A){cg2.gain.value=started?night*.02:0;music()}if(started||!(fr++%20))rd.render(sc,cam)}
-$('goOnline').onclick=()=>{if(started){$('mpPanel').classList.add('open');return}$('go').click();setTimeout(()=>$('mpPanel').classList.add('open'),1150)};
+let paused=0,fr=0,last=performance.now();function loop(now){requestAnimationFrame(loop);const dt=Math.min(.05,(now-last)/1000);last=now;if(started&&!paused)update(dt);if(A){cg2.gain.value=started?night*.02:0;music()}sky();if(started||!(fr++%20))rd.render(sc,cam)}
 $('go').onclick=()=>{if(started)return;if(!A)initAudio();A.resume();const intro=$('cinema');intro.classList.remove('active');intro.style.display='block';void intro.offsetWidth;intro.classList.add('active');$('go').disabled=true;setTimeout(()=>{started=1;document.body.classList.add('playing');$('ov').style.display='none';$('dustFX').classList.add('active');intro.classList.remove('active');intro.style.display='none';$('go').disabled=false;$('pa').style.display='flex';if(matchMedia('(pointer:fine)').matches)rd.domElement.requestPointerLock();msg('به غرب وحشی خوش آمدی؛ نور نارنجی = اردوگاه راهزن‌ها',3500)},1050)};
 $('fs').onclick=()=>{const d=document,e=d.documentElement;try{if(d.fullscreenElement||d.webkitFullscreenElement){(d.exitFullscreen||d.webkitExitFullscreen).call(d)}else{const f=e.requestFullscreen||e.webkitRequestFullscreen;if(!f){msg('این مرورگر تمام‌صفحه را پشتیبانی نمی‌کند؛ لینک را در مرورگر باز کنید',3500);return}const r=f.call(e);if(r&&r.catch)r.catch(()=>msg('اجازهٔ تمام‌صفحه داده نشد؛ لینک را مستقیم در مرورگر باز کنید',3500))}}catch(x){msg('تمام‌صفحه ممکن نیست',2500)}};addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();rd.setSize(innerWidth,innerHeight)});
 
 // tiny ambient dust motes for the western menu
 {const fx=$('dustFX');for(let i=0;i<14;i++){const q=document.createElement('i');q.style.left=(8+Math.random()*84)+'%';q.style.bottom=(3+Math.random()*18)+'%';q.style.setProperty('--dx',((Math.random()-.5)*100)+'px');q.style.animationDelay=(Math.random()*1.2)+'s';q.style.animationDuration=(.8+Math.random()*.8)+'s';fx.appendChild(q)}}
 // splash + menu
-
 $('sp').remove(); // حذف صفحه سفید ابتدایی؛ منوی بازی بلافاصله نمایش داده می‌شود.
 function setPause(on){if(!started||paused==on)return;paused=on;fh=0;$('pz').style.display=on?'flex':'none';if(on&&document.pointerLockElement)document.exitPointerLock();if(!on&&matchMedia('(pointer:fine)').matches)rd.domElement.requestPointerLock()}
 $('pa').onclick=()=>setPause(1);$('pre').onclick=()=>setPause(0);$('pso').onclick=()=>$('set').style.display='flex';$('pmn').onclick=()=>{location.hash='m';location.reload()};
@@ -560,7 +266,7 @@ const saveS=()=>{try{localStorage.setItem('ww',JSON.stringify(S))}catch(e){}};
 $('so').onclick=()=>$('set').style.display='flex';$('sb2').onclick=()=>$('set').style.display='none';
 for(const[id,key]of[['s1','mus'],['s2','sfx'],['s3','sens']]){const e=$(id);e.value=S[key];e.oninput=()=>{S[key]=+e.value;if(mus)mus.gain.value=S.mus;if(sfx)sfx.gain.value=S.sfx;saveS()}}
 const gt=()=>$('s4').textContent='گرافیک: '+(S.gfx?'بالا':'پایین');gt();
-$('s4').onclick=()=>{S.gfx=S.gfx?0:1;gt();rd.setPixelRatio(pixelRatio());rd.setSize(innerWidth,innerHeight);rd.shadowMap.enabled=!!S.gfx;sun.castShadow=!!S.gfx;sun.shadow.mapSize.set(mobilePerf?(S.gfx?1024:512):(S.gfx?1536:512),mobilePerf?(S.gfx?1024:512):(S.gfx?1536:512));saveS()};
+$('s4').onclick=()=>{S.gfx=S.gfx?0:1;gt();rd.setPixelRatio(S.gfx?Math.min(devicePixelRatio,2):1);rd.setSize(innerWidth,innerHeight);sun.castShadow=!!S.gfx;saveS()};
 $('ov').addEventListener('click',()=>{if(!A){initAudio();A.resume()}});
 (function(){const cv=$('bg'),c=cv.getContext('2d'),dust=[],mesa=[[0,.5,.9],[.9,.35,.5],[1.5,.6,1.1],[2.4,.3,.6],[2.9,.7,.8]];let W,H,G,s,L=1,lt=0;
 const rs=()=>{W=cv.width=innerWidth;H=cv.height=innerHeight;G=H*.72;L=W>H*1.3?.52:1;s=Math.min(W*L/6.2,H/4.8)};rs();addEventListener('resize',rs);
@@ -600,55 +306,5 @@ c.fillStyle=c.strokeStyle='#0b0605';c.lineCap='round';for(const cx of[.3,1.1,1.8
 g=c.createRadialGradient(W/2,H*.5,Math.min(W,H)*.3,W/2,H*.5,Math.max(W,H)*.75);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,'rgba(0,0,0,.6)');c.fillStyle=g;c.fillRect(0,0,W,H);
 g=c.createLinearGradient(0,H*.55,0,H);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,'rgba(0,0,0,.55)');c.fillStyle=g;c.fillRect(0,H*.55,W,H*.45)}
 function ml(ts){if(started)return;draw(ts/1000);requestAnimationFrame(ml)}requestAnimationFrame(ml)})();
-cam.position.set(0,14,60);cam.lookAt(0,4,0);sky();requestAnimationFrame(loop);
-</script><style>
-#siteVersion{position:fixed;left:50%;bottom:calc(5px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:8;padding:3px 8px;border:1px solid #d7a45c55;border-radius:999px;background:rgba(15,9,5,.62);color:#d9bd91;font:10px/1.4 system-ui,sans-serif;letter-spacing:.35px;white-space:nowrap;pointer-events:none;opacity:.78;backdrop-filter:blur(5px)}
-@media(max-width:600px){#siteVersion{font-size:9px;padding:2px 7px;bottom:calc(3px + env(safe-area-inset-bottom,0px))}}
-
-/* v1.0.1: separate mobile cash HUD from the top-right gameplay controls */
-@media (max-width:600px){
-  body.playing #cashHud{
-    top:calc(166px + env(safe-area-inset-top,0px));
-    left:calc(10px + env(safe-area-inset-left,0px));
-    right:auto;
-    width:max-content;
-    max-width:calc(100vw - 20px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px));
-    box-sizing:border-box;
-    transform:none;
-    z-index:6;
-  }
-}
-@media (pointer:coarse) and (max-width:420px){
-  body.playing #cashHud{
-    top:calc(166px + env(safe-area-inset-top,0px));
-    left:calc(10px + env(safe-area-inset-left,0px));
-    transform:none;
-    max-width:calc(100vw - 20px);
-  }
-}
-@media (pointer:coarse) and (max-height:500px){
-  body.playing #cashHud{top:calc(118px + env(safe-area-inset-top,0px));}
-}
-
-/* v1.0.2: keep the online button clear of the health HUD and minimap on mobile */
-@media (pointer:coarse) and (max-width:600px){
-  body.playing #mpToggle{
-    top:calc(164px + env(safe-area-inset-top,0px));
-    left:calc(10px + env(safe-area-inset-left,0px));
-    width:38px;
-    height:38px;
-    font-size:18px;
-    z-index:24;
-  }
-}
-@media (pointer:coarse) and (max-width:380px){
-  body.playing #mpToggle{
-    top:calc(164px + env(safe-area-inset-top,0px));
-    left:calc(8px + env(safe-area-inset-left,0px));
-    width:36px;
-    height:36px;
-  }
-}
-</style>
-<div id="siteVersion" aria-label="نسخه بازی">نسخه 1.0.2</div>
-</body></html>
+cam.position.set(0,14,60);cam.lookAt(0,4,0);requestAnimationFrame(loop);
+</script></body></html>
